@@ -12,10 +12,7 @@
 				"oven.bun-vscode",
 				"formulahendry.code-runner",
 				"docker.docker",
-				"ms-azuretools.vscode-docker",
-
-				"GitHub.copilot",
-				"GitHub.copilot-chat",
+				"ms-azuretools.vscode-docker"
 			]
 		}
 	},
