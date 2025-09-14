@@ -12,6 +12,7 @@ env:
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}-backend
+  ACTIONS_STEP_DEBUG: true
 
 jobs:
   build-and-push:
