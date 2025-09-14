@@ -1,0 +1,74 @@
+{
+	"name": "backend",
+	"module": "index.ts",
+	"type": "module",
+	"private": true,
+	"version": "1.0.0",
+	"author": {
+		"name": "Aditya Goel",
+		"email": "me@wpsadi.dev"
+	},
+	"imports": {
+		"#/*": "./*",
+		"#src':/*": "./src/*",
+		"#controllers/*": "./src/controllers/*",
+		"#routes/*": "./src/routes/*",
+		"#middlewares/*": "./src/middlewares/*",
+		"#utils/*": "./src/utils/*",
+		"#config/*": "./src/config/*",
+		"#services/*": "./src/services/*",
+		"#types/*": "./src/types/*",
+		"#validators/*": "./src/validators/*"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.2.4",
+		"@types/bun": "latest",
+		"@types/cookie-parser": "^1.4.9",
+		"@types/cors": "^2.8.19",
+		"@types/express": "^5.0.3",
+		"@types/helmet": "^4.0.0",
+		"@types/morgan": "^1.9.10",
+		"@types/multer": "^2.0.0",
+		"@types/nodemailer": "^7.0.1",
+		"@types/winston": "^2.4.4",
+		"jest": "^30.1.3"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	},
+	"dependencies": {
+		"@prisma/client": "6.16.1",
+		"better-auth": "^1.3.9",
+		"bun": "^1.2.21",
+		"cookie-parser": "^1.4.7",
+		"cors": "^2.8.5",
+		"express": "^5.1.0",
+		"helmet": "^8.1.0",
+		"http-errors": "^2.0.0",
+		"morgan": "^1.10.1",
+		"multer": "^2.0.2",
+		"nodemailer": "^7.0.6",
+		"prisma": "^6.16.1",
+		"winston": "^3.17.0",
+		"zod": "^4.1.8"
+	},
+	"scripts": {
+		"check": "biome check .",
+		"check:unsafe": "biome check --write --unsafe .",
+		"check:write": "biome check --write .",
+		"db:init": "prisma init --datasource-provider mongodb && rm .env",
+		"db:generate": "NODE_ENV=development prisma generate --schema=prisma/schema.prisma",
+		"db:studio": "NODE_ENV=development prisma studio",
+		"db:generate:prod": "NODE_ENV=production prisma generate --schema=prisma/schema.prisma",
+		"db:studio:prod": "NODE_ENV=production prisma studio",
+		"better-auth:generate": "bunx @better-auth/cli generate --config=src/config/auth.ts",
+		"dev": "NODE_ENV=development bun --hot src/server.ts --watch",
+		"code:build": "bun build ./src/server.ts --outdir ./build --target=bun --sourcemap",
+		"prod:start": "NODE_ENV=production bun build/server.js",
+		"dev:start": "NODE_ENV=development bun build/server.js",
+		"start": "NODE_ENV=production bun src/server.ts",
+		"typecheck": "tsc --noEmit",
+		"test": "jest"
+	},
+	"packageManager": "bun@1.2.21"
+}

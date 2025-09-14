@@ -1,0 +1,130 @@
+# version: '3.8'
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    command: bun dev:start
+    networks:
+      - ecommerce-dev
+    restart: unless-stopped
+    depends_on:
+      - mongo
+      - redis
+      - mailhog
+      - minio
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+
+      # Database
+      DATABASE_URL: "mongodb://root:example@mongo:27017/ecommerce?authSource=admin"
+
+      # Auth service
+      BETTER_AUTH_SECRET: "yourbetterauthsecret"
+      BETTER_AUTH_URL: "http://backend:3000"
+
+      # GitHub OAuth (use real creds if needed)
+      GITHUB_CLIENT_ID: "Ov23liBtU6nGml1v3bAq"
+      GITHUB_CLIENT_SECRET: "05ee2d456723de76f581ab18015fb6cb10b3a797"
+
+      # Redis
+      REDIS_URL: "redis://default:example@redis:6379"
+      REDIS_PREFIX: "ecommerce"
+
+      # OpenAI (local or real key)
+      OPENAI_API_KEY: "sk-your-local-or-real-key"
+      OPENAI_BASE_URL: "https://openrouter.ai/api/v1"
+
+      # SMTP (MailHog for dev)
+      SMTP_HOST: "mailhog"
+      SMTP_PORT: 1025
+      SMTP_USER: ""
+      SMTP_PASS: ""
+      SMTP_FROM_EMAIL: "Ecommerce Support <support@ecommerce.local>"
+
+      # S3 (MinIO for dev)
+      S3_BUCKET_NAME: "wpsadi-ecommerce"
+      S3_ENDPOINT: "http://minio:9000"
+      S3_REGION: "us-east-1"
+      S3_ACCESS_KEY_ID: "minio"
+      S3_SECRET_ACCESS_KEY: "minio123"
+
+      # Frontend
+      FRONTEND_URL: "http://localhost:5173"
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - /tmp/mongo-data:/data/db
+    networks:
+      - ecommerce-dev
+    restart: unless-stopped
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_SERVER: mongo
+    depends_on:
+      - mongo
+    networks:
+      - ecommerce-dev
+    restart: unless-stopped
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - ecommerce-dev
+    restart: unless-stopped
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: mailhog
+    ports:
+      - "1025:1025"   # SMTP port your app connects to
+      - "8025:8025"   # Web UI to see emails
+    networks:
+      - ecommerce-dev
+    restart: unless-stopped
+
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    ports:
+      - "9000:9000"   # S3 API
+      - "9001:9001"   # Web Console
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio123
+    command: server /data --console-address ":9001"
+    volumes:
+      - /tmp/minio-data:/data
+    networks:
+      - ecommerce-dev
+    restart: unless-stopped
+
+# volumes:
+#   mongo-data:
+#   minio-data:
+
+networks:
+  ecommerce-dev:
+    driver: bridge

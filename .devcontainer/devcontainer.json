@@ -12,7 +12,9 @@
 				"oven.bun-vscode",
 				"formulahendry.code-runner",
 				"docker.docker",
-				"ms-azuretools.vscode-docker"
+				"ms-azuretools.vscode-docker",
+				"foxundermoon.shell-format",
+				"vscode-icons-team.vscode-icons"
 			]
 		}
 	},
