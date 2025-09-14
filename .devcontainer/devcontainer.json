@@ -1,0 +1,23 @@
+{
+	"image": "mcr.microsoft.com/devcontainers/universal:2",
+	"features": {
+		"ghcr.io/devcontainer-community/devcontainer-features/bun.sh:1": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"Prisma.prisma",
+				"biomejs.biome",
+				"dsznajder.es7-react-js-snippets",
+				"oven.bun-vscode",
+				"formulahendry.code-runner",
+				"docker.docker",
+				"ms-azuretools.vscode-docker",
+
+				"GitHub.copilot",
+				"GitHub.copilot-chat",
+			]
+		}
+	},
+	"remoteUser": "root"
+}
