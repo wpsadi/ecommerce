@@ -53,4 +53,5 @@ jobs:
         uses: sigstore/cosign-installer@v3
 
       - name: Sign Docker image (keyless)
-        run: cosign sign ${{ steps.meta.outputs.digest }}
+        run: cosign sign ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.meta.outputs.digest }}
+
