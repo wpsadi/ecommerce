@@ -1,3 +1,20 @@
+# S3 Storage Context
+
+## S3 File Location Conventions
+
+- **Business Images:**
+  - All images related to a business are stored at:
+    - `/business/{businessID}`
+
+- **Product Images:**
+  - All images related to a product are stored at:
+    - `/business/{businessID}/product/{productID}/images`
+
+## S3 Client Configuration
+
+- S3 is configured using the `S3Client` from the `bun` runtime.
+- See `src/config/s3.ts` for setup details.
+
 # Project Architecture Summary
 
 This document provides a comprehensive overview of the project architecture and best practices to follow when developing the backend of our e-commerce application.

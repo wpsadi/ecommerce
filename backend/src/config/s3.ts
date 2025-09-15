@@ -8,3 +8,9 @@ export const s3 = new S3Client({
 	endpoint: process.env.S3_ENDPOINT,
 	region: process.env.S3_REGION,
 });
+
+export const getSignedUrl = (key: string, expiresIn: number = 60 * 5) => {
+	return s3.presign(key, {
+		expiresIn: expiresIn,
+	});
+};

@@ -96,6 +96,7 @@ model Business {
   BusinesPaymentInfo BusinesPaymentInfo? @relation
   isAllowed          Boolean             @default(false)
   isVerified         Boolean             @default(false)
+  products           Product[]
 
   @@map("business")
 }
@@ -113,10 +114,15 @@ model BusinesPaymentInfo {
 
 model Product {
   id          String   @id @map("_id")
+  businessId  String
+  business    Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
   name        String
   description String?
   price       Float
-  images      String[]
+  mainImage   String
+  sideImages  String[]
+  video       String?
+  quantity    Int
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
 
