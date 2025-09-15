@@ -38,7 +38,7 @@ RUN bun code:build
 
 # [optional] tests & build
 ENV NODE_ENV=production
-ENV PORT=3000
+ENV PORT=8000
 # RUN bun test
 
 

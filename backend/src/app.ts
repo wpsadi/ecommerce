@@ -15,7 +15,18 @@ const app: Express = express();
 
 // default middlewares
 app.use(helmet());
-app.use(cors());
+app.use(
+	cors({
+		// allow the request origin (works with credentials)
+		origin: ["http://127.0.0.1:3000", process.env.FRONTEND_URL],
+		credentials: true,
+		optionsSuccessStatus: 200,
+
+		methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+		// allow common headers clients will send
+		allowedHeaders: "Authorization,Content-Type",
+	}),
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

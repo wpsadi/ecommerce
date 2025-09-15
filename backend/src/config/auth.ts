@@ -86,10 +86,14 @@ export const auth = betterAuth({
 	secondaryStorage: {
 		get: async (key) => {
 			const { redis } = await import("#config/redis");
-			return await redis.get(`${process.env.REDIS_PREFIX}:auth:${key}`);
+			await redis.connect();
+			const data = await redis.get(`${process.env.REDIS_PREFIX}:auth:${key}`);
+			await redis.close();
+			return data;
 		},
 		set: async (key, value, ttl) => {
 			const { redis } = await import("#config/redis");
+			await redis.connect();
 			if (ttl) {
 				await redis.set(`${process.env.REDIS_PREFIX}:auth:${key}`, value);
 				await redis.expire(`${process.env.REDIS_PREFIX}:auth:${key}`, ttl);
@@ -97,10 +101,13 @@ export const auth = betterAuth({
 			// or for ioredis:
 			// if (ttl) await redis.set(key, value, 'EX', ttl)
 			else await redis.set(`${process.env.REDIS_PREFIX}:auth:${key}`, value);
+			await redis.close();
 		},
 		delete: async (key) => {
 			const { redis } = await import("#config/redis");
+			await redis.connect();
 			await redis.del(`${process.env.REDIS_PREFIX}:auth:${key}`);
+			await redis.close();
 		},
 	},
 });

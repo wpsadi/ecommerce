@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "8000:8000"
     volumes:
       - .:/app
     command: bun dev:start
@@ -19,7 +19,7 @@ services:
       - minio
     environment:
       NODE_ENV: development
-      PORT: 3000
+      PORT: 8000
 
       # Database
       DATABASE_URL: "mongodb://root:example@mongo:27017/ecommerce?authSource=admin"
