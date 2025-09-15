@@ -62,6 +62,7 @@ COPY --from=codebase /app/package.json .
 
 RUN mkdir -p /app/logs && chmod 777 /app/logs
 
+ENV NODE_ENV=production
 ENV PORT=3000
 
 USER bun
