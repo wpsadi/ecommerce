@@ -8,6 +8,7 @@ import logger from "#config/logger";
 import { errorMiddleware } from "#middlewares/error.middleware";
 import { businessRouter } from "#routes/business.routes";
 import { ordersRouter } from "#routes/orders.routes";
+import { paymentRouter } from "#routes/payment.routes";
 import { productsRouter } from "#routes/products.routes";
 
 const app: Express = express();
@@ -29,6 +30,7 @@ app.all("/api/auth/{*any}", toNodeHandler(auth));
 app.use("/api/business", businessRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/orders", ordersRouter);
+app.use("/api/payments", paymentRouter);
 
 // health routes
 app.get("/health", (_req, res) => {

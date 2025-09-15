@@ -29,6 +29,9 @@ declare global {
 			S3_SECRET_ACCESS_KEY: string;
 
 			FRONTEND_URL: string;
+
+			RZP_KEY_ID: string;
+			RZP_SECRET: string;
 		}
 	}
 }
