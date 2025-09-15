@@ -18,5 +18,25 @@ export const productValidator = {
 	}),
 };
 
-// Example type export:
+// Pagination and search validators
+export const listProductsValidator = {
+	query: z.object({
+		page: z.coerce.number().min(1).default(1),
+		limit: z.coerce.number().min(1).max(100).default(10),
+		businessId: z.string().optional(),
+	}),
+};
+
+export const searchProductsValidator = {
+	query: z.object({
+		q: z.string().min(1, "Search query is required"),
+		page: z.coerce.number().min(1).default(1),
+		limit: z.coerce.number().min(1).max(100).default(10),
+		businessId: z.string().optional(),
+	}),
+};
+
+// Example type exports:
 export type ProductInput = z.infer<typeof productValidator.body>;
+export type ListProductsQuery = z.infer<typeof listProductsValidator.query>;
+export type SearchProductsQuery = z.infer<typeof searchProductsValidator.query>;

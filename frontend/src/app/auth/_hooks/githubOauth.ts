@@ -6,7 +6,9 @@ export const useGithubOauth = () => {
   const githubOAuth = async () => {
     const call = await authClient.signIn.social({
       provider: "github",
-      callbackURL: new URL(window.location.origin).toString(),
+
+      newUserCallbackURL: new URL(window.location.origin).toString(),
+      errorCallbackURL: new URL("error", window.location.origin).toString(),
     });
     if (call.error) {
       throw new Error(call.error.message);

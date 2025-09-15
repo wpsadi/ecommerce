@@ -5,7 +5,7 @@ import { useUser } from "@/hooks/useUser";
 import Loading from "./loading";
 
 function AuthLayout({ children }: { children: React.ReactNode }) {
-  const { data, error, isPending } = useUser();
+  const { data, isPending } = useUser();
 
   if (isPending) return <Loading />;
 

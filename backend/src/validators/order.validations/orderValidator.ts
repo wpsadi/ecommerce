@@ -13,4 +13,13 @@ export const orderValidator = {
 	}),
 };
 
+export const getSingleOrderValidator = {
+	params: z.object({
+		orderId: z.string().min(1, "Order ID is required"),
+	}),
+};
+
 export type OrderInput = z.infer<typeof orderValidator.body>;
+export type GetSingleOrderParams = z.infer<
+	typeof getSingleOrderValidator.params
+>;

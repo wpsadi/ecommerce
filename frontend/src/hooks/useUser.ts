@@ -2,7 +2,7 @@ import { authClient } from "@/lib/auth-client";
 
 export const useUser = () => {
   const { useSession } = authClient;
-  const { refetch } = useSession();
+  // const { refetch } = useSession();
 
   // now we implement a useQuery that will refetch the user data every 5 minutes
   // useQuery({
