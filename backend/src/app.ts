@@ -10,6 +10,7 @@ import { businessRouter } from "#routes/business.routes";
 import { ordersRouter } from "#routes/orders.routes";
 import { paymentRouter } from "#routes/payment.routes";
 import { productsRouter } from "#routes/products.routes";
+import { Origins } from "#src/constants/origins";
 
 const app: Express = express();
 
@@ -18,7 +19,7 @@ app.use(helmet());
 app.use(
 	cors({
 		// allow the request origin (works with credentials)
-		origin: ["http://127.0.0.1:3000", process.env.FRONTEND_URL],
+		origin: Origins,
 		credentials: true,
 		optionsSuccessStatus: 200,
 

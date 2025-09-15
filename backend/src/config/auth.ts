@@ -4,6 +4,7 @@ import { emailOTP, organization } from "better-auth/plugins";
 import { transporter } from "#/src/config/smtp";
 import { ac, owner } from "#config/permissions";
 import { prisma } from "#config/prisma";
+import { Origins } from "#src/constants/origins";
 
 export const auth = betterAuth({
 	database: prismaAdapter(prisma, {
@@ -16,7 +17,7 @@ export const auth = betterAuth({
 			clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
 		},
 	},
-	trustedOrigins: [process.env.FRONTEND_URL || "http://localhost:3000"],
+	trustedOrigins: Origins,
 	session: {
 		expiresIn: 7 * 60 * 60, // 1 hour
 		updateAge: 60 * 60, // 1 hour (every 1 hour the session expiration is updated)
