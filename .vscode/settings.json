@@ -1,5 +1,7 @@
-{  "chat.tools.terminal.autoApprove": {
-
+{
+  "dotenv.enableAutocloaking": false,
+  "github.copilot.chat.codeGeneration.useInstructionFiles": true,
+  "chat.tools.terminal.autoApprove": {
     "cd": true,
     "echo": true,
     "ls": true,

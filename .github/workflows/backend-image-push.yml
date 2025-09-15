@@ -52,5 +52,9 @@ jobs:
       - name: Install cosign
         uses: sigstore/cosign-installer@v3
 
+      - name: Get image digest
+        id: digest
+        run: echo "IMAGE_DIGEST=${{ steps.meta.outputs.tags }}@${{ steps.build-and-push.outputs.digest }}" >> $GITHUB_ENV
+
       - name: Sign Docker image (keyless)
-        run: cosign sign ${{ steps.meta.outputs.tags }}
+        run: cosign sign ${{ steps.build-and-push.outputs.digest }}
