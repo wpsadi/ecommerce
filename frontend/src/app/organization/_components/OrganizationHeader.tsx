@@ -41,12 +41,12 @@ export default function OrganizationHeader({
               </CardDescription>
             </div>
           </div>
-          <Link href={`/organization/settings`}>
+          {/* <Link href={`/organization/settings`}>
             <Button variant="outline" size="sm">
               <Settings className="mr-2 h-4 w-4" />
               Settings
             </Button>
-          </Link>
+          </Link> */}
         </div>
       </CardHeader>
     </Card>

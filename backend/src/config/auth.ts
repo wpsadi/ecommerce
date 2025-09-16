@@ -107,27 +107,29 @@ export const auth = betterAuth({
 		},
 	},
 	databaseHooks: {
-		account: {
-			create: {
-				async after(_account, context) {
-					if (!context) {
-						logger.error("Context is required for after account creation hook");
-						return;
-					}
-					// create organization with the account user as owner
-					const data = await auth.api.getSession({
-						headers: context.headers!,
-					});
-					const user = data?.user;
+		user: {
 
-					await auth.api.createOrganization({
+			create: {
+
+				async after(user, context) {
+						logger.info(`New user created: ${user.email} (${user.id})`);
+						// Automatically create an organization for the new user
+						logger.info(
+							`Creating organization for new user ${user.email} (${user.id})`,
+						);
+						await auth.api.createOrganization({
 						body: {
 							name: `${user?.name}'s Organization`,
 							keepCurrentActiveOrganization: true,
 							slug: user?.id!,
 							userId: user?.id,
-						},
-						headers: context.headers!,
+							
+						}
+					}).catch((err) => {
+						console.error(err)
+						logger.error(
+							`Error creating organization for user ${user?.email}: ${err.message}`,
+						);
 					});
 
 					logger.info(
@@ -136,5 +138,8 @@ export const auth = betterAuth({
 				},
 			},
 		},
+		
 	},
+
+	
 });

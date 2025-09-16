@@ -6,11 +6,14 @@ export const useOrganization = () => {
   return useQuery({
     queryKey: ["organization"],
     queryFn: async () => {
-      const res = await authClient.organization.getFullOrganization();
+      const res = await authClient.organization.list();
 
       if (!res?.data) throw new Error("You are not part of any organization");
 
-      return res.data;
+
+
+      if (res.data.length < 1 || res.data.length > 1) throw new Error("You are not part of any organization");
+      return res.data[0];
     },
   });
 };

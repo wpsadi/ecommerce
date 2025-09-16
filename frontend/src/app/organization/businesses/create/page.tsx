@@ -101,7 +101,7 @@ export default function CreateBusinessPage() {
           upiId,
         });
       }
-      router.push(`/organization/${organization.id}`);
+      router.push(`/organization`);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Failed to create business",
@@ -110,8 +110,7 @@ export default function CreateBusinessPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+  
       <div className="container mx-auto px-4 py-8">
         {/* Back Button */}
         <Button
@@ -329,7 +328,6 @@ export default function CreateBusinessPage() {
           </form>
         </div>
       </div>
-      <Footer />
-    </div>
+     
   );
 }
