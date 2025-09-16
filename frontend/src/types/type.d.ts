@@ -3,7 +3,7 @@ import { OrganizationInput } from "better-auth/plugins/organization";
 export interface Product {
   id: string;
   name: string;
-  description: string;
+  description: string | null;
   price: number;
   quantity: number;
   mainImage: string;

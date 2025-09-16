@@ -2,18 +2,18 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="bg-slate-900 text-white">
+    <footer className="bg-background text-foreground">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-                <div className="w-4 h-4 bg-slate-900 rounded-sm"></div>
+              <div className="w-8 h-8 bg-card rounded-lg flex items-center justify-center">
+                <div className="w-4 h-4 bg-foreground rounded-sm"></div>
               </div>
               <span className="font-bold text-xl">Katachi</span>
             </div>
-            <p className="text-slate-300 text-sm leading-relaxed">
+            <p className="text-muted-foreground text-sm leading-relaxed">
               Beautiful ecommerce platform for artisans and creators to showcase
               their craft.
             </p>
@@ -22,11 +22,11 @@ export function Footer() {
           {/* Platform */}
           <div>
             <h3 className="font-semibold mb-4">Platform</h3>
-            <ul className="space-y-2 text-sm text-slate-300">
+            <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link
                   href="/products"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-foreground transition-colors"
                 >
                   Products
                 </Link>
@@ -34,7 +34,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/organizations"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-foreground transition-colors"
                 >
                   Organizations
                 </Link>
@@ -42,7 +42,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/search"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-foreground transition-colors"
                 >
                   Search
                 </Link>
@@ -53,11 +53,11 @@ export function Footer() {
           {/* Account */}
           <div>
             <h3 className="font-semibold mb-4">Account</h3>
-            <ul className="space-y-2 text-sm text-slate-300">
+            <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link
                   href="/login"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-foreground transition-colors"
                 >
                   Login
                 </Link>
@@ -65,7 +65,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/signup"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-foreground transition-colors"
                 >
                   Sign up
                 </Link>
@@ -73,7 +73,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/orders"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-foreground transition-colors"
                 >
                   Orders
                 </Link>
@@ -81,7 +81,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/cart"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-foreground transition-colors"
                 >
                   Cart
                 </Link>
@@ -92,24 +92,36 @@ export function Footer() {
           {/* Support */}
           <div>
             <h3 className="font-semibold mb-4">Support</h3>
-            <ul className="space-y-2 text-sm text-slate-300">
+            <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link
+                  href="#"
+                  className="hover:text-foreground transition-colors"
+                >
                   Help Center
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link
+                  href="#"
+                  className="hover:text-foreground transition-colors"
+                >
                   Contact
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link
+                  href="#"
+                  className="hover:text-foreground transition-colors"
+                >
                   Privacy
                 </Link>
               </li>
               <li>
-                <Link href="#" className="hover:text-white transition-colors">
+                <Link
+                  href="#"
+                  className="hover:text-foreground transition-colors"
+                >
                   Terms
                 </Link>
               </li>
@@ -117,20 +129,20 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-slate-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-slate-400 text-sm">
+        <div className="border-t border-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-muted-foreground text-sm">
             © 2024 Katachi. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link
               href="#"
-              className="text-slate-400 hover:text-white text-sm transition-colors"
+              className="text-muted-foreground hover:text-foreground text-sm transition-colors"
             >
               Privacy Policy
             </Link>
             <Link
               href="#"
-              className="text-slate-400 hover:text-white text-sm transition-colors"
+              className="text-muted-foreground hover:text-foreground text-sm transition-colors"
             >
               Terms of Service
             </Link>

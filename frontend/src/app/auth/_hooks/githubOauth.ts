@@ -6,16 +6,15 @@ export const useGithubOauth = () => {
   const githubOAuth = async () => {
     const call = await authClient.signIn.social({
       provider: "github",
-
-      newUserCallbackURL: new URL(window.location.origin).toString(),
-      errorCallbackURL: new URL("error", window.location.origin).toString(),
+      // newUserCallbackURL: new URL(window.location.origin).toString(),
+      // errorCallbackURL: new URL("error", window.location.origin).toString(),
     });
     if (call.error) {
       throw new Error(call.error.message);
     }
-    if (call.data?.url) {
-      window.location.href = call.data.url;
-    }
+    // if (call.data?.url) {
+    //   window.location.href = call.data.url;
+    // }
     return call.data;
   };
   const toastId = "github-oauth";
@@ -30,13 +29,13 @@ export const useGithubOauth = () => {
         description: error.message,
       });
     },
-    onSuccess(data) {
-      if (data?.url) {
-        toast.success("Redirecting to GitHub...", { id: toastId });
-      } else {
-        toast.error("Failed to connect to GitHub", { id: toastId });
-      }
-    },
+    // onSuccess(data) {
+    //   if (data?.url) {
+    //     toast.success("Redirecting to GitHub...", { id: toastId });
+    //   } else {
+    //     toast.error("Failed to connect to GitHub", { id: toastId });
+    //   }
+    // },
     onSettled() {
       toast.dismiss(toastId);
     },

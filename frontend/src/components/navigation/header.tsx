@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type React from "react";
 import { useState } from "react";
+import { useSearchStore } from "@/app/products/_store/search-store";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,17 +23,18 @@ import { useCartStore } from "@/store/cart.store";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+
   const { useSession, signOut } = authClient;
   const { data } = useSession();
   const { items } = useCartStore();
+  const { searchTerm, setSearchTerm } = useSearchStore();
   const router = useRouter();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
+    if (searchTerm.trim()) {
       //   router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`)
-      setSearchQuery("");
+      setSearchTerm(searchTerm.trim());
     }
   };
 
@@ -42,15 +44,15 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center justify-center">
-              <div className="w-4 h-4 bg-white rounded-sm"></div>
+            <div className="w-8 h-8 bg-foreground rounded-lg flex items-center justify-center">
+              <div className="w-4 h-4 bg-background rounded-sm"></div>
             </div>
-            <span className="font-bold text-xl text-slate-900">Katachi</span>
+            <span className="font-bold text-xl text-foreground">Ecomm</span>
           </Link>
 
           {/* Search Bar - Desktop */}
@@ -59,13 +61,13 @@ export function Header() {
             className="hidden md:flex flex-1 max-w-md mx-8"
           >
             <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
               <Input
                 type="search"
                 placeholder="Search products..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 h-10 bg-slate-50 border-slate-200 focus:bg-white"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 h-10 bg-muted border-border focus:bg-background"
               />
             </div>
           </form>
@@ -74,7 +76,7 @@ export function Header() {
           <nav className="hidden md:flex items-center space-x-6">
             <Link
               href="/products"
-              className="text-slate-600 hover:text-slate-900 font-medium"
+              className="text-muted-foreground hover:text-foreground font-medium"
             >
               Products
             </Link>
@@ -83,7 +85,7 @@ export function Header() {
               <>
                 <Link
                   href="/organizations"
-                  className="text-slate-600 hover:text-slate-900 font-medium"
+                  className="text-muted-foreground hover:text-foreground font-medium"
                 >
                   Organizations
                 </Link>
@@ -91,7 +93,7 @@ export function Header() {
                   <Button variant="ghost" size="sm" className="p-2">
                     <ShoppingCart className="h-5 w-5" />
                     {items.length > 0 && (
-                      <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-slate-900">
+                      <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs bg-foreground text-background">
                         {items.length}
                       </Badge>
                     )}
@@ -101,7 +103,7 @@ export function Header() {
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="sm" className="p-2">
-                      <div className="w-6 h-6 bg-slate-200 rounded-full overflow-hidden">
+                      <div className="w-6 h-6 bg-muted rounded-full overflow-hidden">
                         {data.user?.image ? (
                           <Image
                             src={data.user.image || "/placeholder.svg"}
@@ -111,7 +113,7 @@ export function Header() {
                             className="w-full h-full object-cover"
                           />
                         ) : (
-                          <div className="w-full h-full bg-slate-300 flex items-center justify-center text-slate-600 text-xs font-medium">
+                          <div className="w-full h-full bg-border flex items-center justify-center text-muted-foreground text-xs font-medium">
                             {data.user.name?.charAt(0).toUpperCase()}
                           </div>
                         )}
@@ -122,7 +124,7 @@ export function Header() {
                     <DropdownMenuLabel>
                       <div>
                         <p className="font-medium">{data.user?.name}</p>
-                        <p className="text-xs text-slate-500">
+                        <p className="text-xs text-muted-foreground">
                           {data.user?.email}
                         </p>
                       </div>
@@ -149,13 +151,16 @@ export function Header() {
               </>
             ) : (
               <div className="flex items-center space-x-3">
-                <Link href="/login">
+                <Link href="/auth">
                   <Button variant="ghost" size="sm">
                     Login
                   </Button>
                 </Link>
-                <Link href="/signup">
-                  <Button size="sm" className="bg-slate-900 hover:bg-slate-800">
+                <Link href="/auth">
+                  <Button
+                    size="sm"
+                    className="bg-foreground text-background hover:bg-foreground/80"
+                  >
                     Sign up
                   </Button>
                 </Link>
@@ -180,17 +185,17 @@ export function Header() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden border-t bg-white py-4">
+          <div className="md:hidden border-t border-border bg-background py-4">
             {/* Mobile Search */}
             <form onSubmit={handleSearch} className="mb-4">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                 <Input
                   type="search"
                   placeholder="Search products..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 h-10 bg-slate-50 border-slate-200"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 h-10 bg-muted border-border"
                 />
               </div>
             </form>
@@ -199,7 +204,7 @@ export function Header() {
             <nav className="space-y-3">
               <Link
                 href="/products"
-                className="block py-2 text-slate-600 hover:text-slate-900 font-medium"
+                className="block py-2 text-muted-foreground hover:text-foreground font-medium"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Products
@@ -209,14 +214,14 @@ export function Header() {
                 <>
                   <Link
                     href="/organizations"
-                    className="block py-2 text-slate-600 hover:text-slate-900 font-medium"
+                    className="block py-2 text-muted-foreground hover:text-foreground font-medium"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Organizations
                   </Link>
                   <Link
                     href="/cart"
-                    className="flex items-center py-2 text-slate-600 hover:text-slate-900 font-medium"
+                    className="flex items-center py-2 text-muted-foreground hover:text-foreground font-medium"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <ShoppingCart className="mr-2 h-4 w-4" />
@@ -224,7 +229,7 @@ export function Header() {
                   </Link>
                   <Link
                     href="/orders"
-                    className="block py-2 text-slate-600 hover:text-slate-900 font-medium"
+                    className="block py-2 text-muted-foreground hover:text-foreground font-medium"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Orders
@@ -234,20 +239,20 @@ export function Header() {
                       handleLogout();
                       setIsMenuOpen(false);
                     }}
-                    className="block w-full text-left py-2 text-slate-600 hover:text-slate-900 font-medium"
+                    className="block w-full text-left py-2 text-muted-foreground hover:text-foreground font-medium"
                   >
                     Logout
                   </Button>
                 </>
               ) : (
-                <div className="space-y-3 pt-3 border-t">
-                  <Link href="/login" onClick={() => setIsMenuOpen(false)}>
+                <div className="space-y-3 pt-3 border-t border-border">
+                  <Link href="/auth" onClick={() => setIsMenuOpen(false)}>
                     <Button variant="ghost" className="w-full justify-start">
                       Login
                     </Button>
                   </Link>
-                  <Link href="/signup" onClick={() => setIsMenuOpen(false)}>
-                    <Button className="w-full bg-slate-900 hover:bg-slate-800">
+                  <Link href="/auth" onClick={() => setIsMenuOpen(false)}>
+                    <Button className="w-full bg-foreground text-background hover:bg-foreground/80">
                       Sign up
                     </Button>
                   </Link>
