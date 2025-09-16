@@ -19,7 +19,7 @@ export const useProduct = (id: string) => {
         },
       );
 
-      const data: { error?: string; product: Product } = await res.json();
+      const data: Response = await res.json();
       if (data?.error) throw new Error(data.error);
 
       return data.product;

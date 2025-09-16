@@ -1,4 +1,5 @@
 import { Minus, Plus, Trash2 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -60,9 +61,11 @@ function CartProduct({
         <div className="flex gap-4">
           {/* Product Image */}
           <div className="w-24 h-24 bg-muted rounded-lg overflow-hidden flex-shrink-0">
-            <img
+            <Image
               src={data.mainImage || "/placeholder.svg"}
               alt={data.name}
+              height={96}
+              width={96}
               className="w-full h-full object-cover"
             />
           </div>

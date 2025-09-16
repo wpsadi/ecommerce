@@ -1,6 +1,14 @@
 "use client";
 
-import { Menu, Package, Search, ShoppingCart, Users, X } from "lucide-react";
+import {
+  Loader2,
+  Menu,
+  Package,
+  Search,
+  ShoppingCart,
+  Users,
+  X,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -25,7 +33,7 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const { useSession, signOut } = authClient;
-  const { data } = useSession();
+  const { data, isPending } = useSession();
   const { items } = useCartStore();
   const { searchTerm, setSearchTerm } = useSearchStore();
   const router = useRouter();
@@ -33,7 +41,7 @@ export function Header() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchTerm.trim()) {
-      //   router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`)
+      router.push(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
       setSearchTerm(searchTerm.trim());
     }
   };
@@ -81,13 +89,19 @@ export function Header() {
               Products
             </Link>
 
-            {data?.user ? (
+            {isPending && (
+              <div className="text-muted-foreground">
+                <Loader2 className="animate-spin" />
+              </div>
+            )}
+
+            {data?.user && (
               <>
                 <Link
-                  href="/organizations"
+                  href="/organization"
                   className="text-muted-foreground hover:text-foreground font-medium"
                 >
-                  Organizations
+                  Organization
                 </Link>
                 <Link href="/cart" className="relative">
                   <Button variant="ghost" size="sm" className="p-2">
@@ -131,9 +145,9 @@ export function Header() {
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
-                      <Link href="/organizations" className="flex items-center">
+                      <Link href="/organization" className="flex items-center">
                         <Users className="mr-2 h-4 w-4" />
-                        Organizations
+                        Organization
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
@@ -149,7 +163,8 @@ export function Header() {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </>
-            ) : (
+            )}
+            {!isPending && !data?.user && (
               <div className="flex items-center space-x-3">
                 <Link href="/auth">
                   <Button variant="ghost" size="sm">

@@ -1,19 +1,13 @@
 "use client";
 
-import {
-  ArrowLeft,
-  Heart,
-  Play,
-  Share2,
-  ShoppingCart,
-  Star,
-} from "lucide-react";
+import { ArrowLeft, Heart, Play, Share2, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-
+import { HeroVideoDialog } from "@/components/ui/hero-video-dialog";
+import { Label } from "@/components/ui/label";
 import { useCartStore } from "@/store/cart.store";
 import { formatINR } from "@/utils/currency";
 import { useProduct } from "./_hooks/loadProduct";
@@ -118,12 +112,22 @@ export default function ProductDetailPage() {
             <div className="aspect-square bg-muted rounded-lg overflow-hidden shadow-md">
               {allMedia[selectedImage]?.includes(".mp4") ? (
                 <div className="relative w-full h-full">
-                  <video
+                  <HeroVideoDialog
+                    className="w-full h-full object-cover"
+                    animationStyle="from-center"
+                    videoSrc={allMedia[selectedImage] || "/placeholder.mp4"}
+                    thumbnailSrc="https://startup-template-sage.vercel.app/hero-dark.png"
+                    thumbnailAlt="Product Detail"
+
+                    // onClick={() => setIsVideoPlaying( !isVideoPlaying )}
+                  />
+
+                  {/* <video
                     src={allMedia[selectedImage] || "/placeholder.mp4"}
                     className="w-full h-full object-cover"
                     controls={isVideoPlaying}
-                    onClick={() => setIsVideoPlaying(!isVideoPlaying)}
-                  />
+                    // onClick={() => setIsVideoPlaying( !isVideoPlaying )}
+                  /> */}
                   {!isVideoPlaying && (
                     <div className="absolute inset-0 flex items-center justify-center bg-black/20">
                       <Button
@@ -149,8 +153,8 @@ export default function ProductDetailPage() {
             {allMedia.length > 1 && (
               <div className="grid grid-cols-4 gap-2">
                 {allMedia.map((media, index) => (
-                  <button
-                    key={index}
+                  <Button
+                    key={index.toString()}
                     onClick={() => {
                       setSelectedImage(index);
                       setIsVideoPlaying(false);
@@ -163,10 +167,14 @@ export default function ProductDetailPage() {
                   >
                     {media?.includes(".mp4") ? (
                       <div className="relative w-full h-full">
-                        <video
-                          src={media || "/placeholder.mp4"}
+                        <HeroVideoDialog
                           className="w-full h-full object-cover"
+                          animationStyle="from-center"
+                          videoSrc={media || "/placeholder.mp4"}
+                          thumbnailSrc="https://startup-template-sage.vercel.app/hero-dark.png"
+                          thumbnailAlt="Hero Video"
                         />
+
                         <div className="absolute inset-0 flex items-center justify-center bg-black/20">
                           <Play className="h-4 w-4 text-white" />
                         </div>
@@ -178,7 +186,7 @@ export default function ProductDetailPage() {
                         className="w-full h-full object-cover"
                       />
                     )}
-                  </button>
+                  </Button>
                 ))}
               </div>
             )}
@@ -202,17 +210,17 @@ export default function ProductDetailPage() {
                 </div>
               </div>
               <div className="flex items-center gap-2 mb-4">
-                <div className="flex items-center gap-1">
+                {/* <div className="flex items-center gap-1">
                   {[...Array(5)].map((_, i) => (
                     <Star
-                      key={i}
+                      key={i.toString()}
                       className="h-4 w-4 fill-yellow-400 text-yellow-400"
                     />
                   ))}
                   <span className="text-sm text-muted-foreground ml-1">
                     (4.8) • 24 reviews
                   </span>
-                </div>
+                </div> */}
               </div>
             </div>
 
@@ -255,9 +263,9 @@ export default function ProductDetailPage() {
             {data.quantity && (
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
-                  <label className="font-medium text-foreground">
+                  <Label className="font-medium text-foreground">
                     Quantity:
-                  </label>
+                  </Label>
                   <div className="flex items-center border border-muted-foreground rounded-lg">
                     <Button
                       variant="ghost"

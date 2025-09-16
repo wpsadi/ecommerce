@@ -21,7 +21,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-slate-900 mb-4">
-              Why Choose Katachi
+              Why Choose Ecomm
             </h2>
             <p className="text-slate-600 max-w-2xl mx-auto">
               A platform designed for artisans, creators, and customers who

@@ -1,10 +1,12 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
+import { organizationClient } from "better-auth/client/plugins";
 import { emailOTP, organization } from "better-auth/plugins";
 import { transporter } from "#/src/config/smtp";
 import { ac, owner } from "#config/permissions";
 import { prisma } from "#config/prisma";
 import { Origins } from "#src/constants/origins";
+import logger from "./logger";
 import { redis } from "./redis";
 
 export const auth = betterAuth({
@@ -31,6 +33,7 @@ export const auth = betterAuth({
 				owner,
 			},
 		}),
+		organizationClient(),
 		emailOTP({
 			async sendVerificationOTP({ email, otp, type }) {
 				if (type === "sign-in") {
@@ -101,6 +104,37 @@ export const auth = betterAuth({
 		},
 		delete: async (key) => {
 			await redis.del(`${process.env.REDIS_PREFIX}:auth:${key}`);
+		},
+	},
+	databaseHooks: {
+		account: {
+			create: {
+				async after(_account, context) {
+					if (!context) {
+						logger.error("Context is required for after account creation hook");
+						return;
+					}
+					// create organization with the account user as owner
+					const data = await auth.api.getSession({
+						headers: context.headers!,
+					});
+					const user = data?.user;
+
+					await auth.api.createOrganization({
+						body: {
+							name: `${user?.name}'s Organization`,
+							keepCurrentActiveOrganization: true,
+							slug: user?.id!,
+							userId: user?.id,
+						},
+						headers: context.headers!,
+					});
+
+					logger.info(
+						`Organization created for user ${user?.email} after account creation`,
+					);
+				},
+			},
 		},
 	},
 });

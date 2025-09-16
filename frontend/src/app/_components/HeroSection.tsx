@@ -29,12 +29,14 @@ function HeroSection() {
                 placeholder="Search our collection..."
                 className="w-full h-14 px-6 pr-12 rounded-full border border-border bg-background/80 backdrop-blur-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground focus:border-transparent"
               />
-              <Button
-                size="sm"
-                className="absolute right-2 top-2 h-10 w-10 rounded-full bg-foreground text-background hover:bg-foreground/80 p-0"
-              >
-                <ArrowRight className="h-4 w-4" />
-              </Button>
+              <Link href={`/search?q=${encodeURIComponent(searchTerm.trim())}`}>
+                <Button
+                  size="sm"
+                  className="absolute right-2 top-2 h-10 w-10 rounded-full bg-foreground text-background hover:bg-foreground/80 p-0"
+                >
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </Link>
             </div>
           </div>
 

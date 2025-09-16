@@ -33,10 +33,10 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/organizations"
+                  href="/organization"
                   className="hover:text-foreground transition-colors"
                 >
-                  Organizations
+                  Organization
                 </Link>
               </li>
               <li>

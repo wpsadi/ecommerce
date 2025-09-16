@@ -26,6 +26,9 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "security": {
+        "noDangerouslySetInnerHtml": "warn"
+      },
       "suspicious": {
         "noUnknownAtRules": "off"
       }

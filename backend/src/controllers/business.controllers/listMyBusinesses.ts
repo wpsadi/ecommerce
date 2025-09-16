@@ -49,7 +49,7 @@ export const listMyBusinessesController = async (
 			orderBy: [{ createdAt: "desc" }, { name: "asc" }],
 		});
 
-		res.json({
+		const data = {
 			businesses: allBusinesses,
 			message: "Businesses fetched successfully",
 			pagination: {
@@ -57,7 +57,9 @@ export const listMyBusinessesController = async (
 				limit,
 				hasMore: allBusinesses.length === limit,
 			},
-		});
+		};
+
+		res.json(data);
 	} catch (err) {
 		next(err);
 	}

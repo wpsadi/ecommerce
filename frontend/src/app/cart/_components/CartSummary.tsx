@@ -11,7 +11,7 @@ function CartSummary() {
 
   if (isPending) {
     return (
-      <Card className="border-0 shadow-lg sticky top-8">
+      <Card className="border-0 shadow-lg sticky top-8 bg-background">
         <CardHeader>
           <CardTitle>
             <Skeleton className="h-6 w-32 bg-muted" />
@@ -20,13 +20,13 @@ function CartSummary() {
         <CardContent className="space-y-4">
           <div className="space-y-2">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="flex justify-between text-sm">
+              <div key={i.toString()} className="flex justify-between text-sm">
                 <Skeleton className="h-4 w-24 bg-muted" />
                 <Skeleton className="h-4 w-12 bg-muted" />
               </div>
             ))}
           </div>
-          <div className="border-t pt-4 space-y-2">
+          <div className="border-t border-border pt-4 space-y-2">
             <div className="flex justify-between text-sm">
               <Skeleton className="h-4 w-20 bg-muted" />
               <Skeleton className="h-4 w-12 bg-muted" />
@@ -36,7 +36,7 @@ function CartSummary() {
               <Skeleton className="h-4 w-12 bg-muted" />
             </div>
           </div>
-          <div className="border-t pt-4">
+          <div className="border-t border-border pt-4">
             <div className="flex justify-between text-lg font-bold">
               <Skeleton className="h-5 w-16 bg-muted" />
               <Skeleton className="h-5 w-16 bg-muted" />
@@ -52,7 +52,7 @@ function CartSummary() {
 
   if (isError) {
     return (
-      <Card className="border-0 shadow-lg sticky top-8 opacity-80 pointer-events-none">
+      <Card className="border-0 shadow-lg sticky top-8 opacity-80 pointer-events-none bg-background">
         <CardHeader>
           <CardTitle>Order Summary</CardTitle>
         </CardHeader>
@@ -69,9 +69,9 @@ function CartSummary() {
   }
 
   return (
-    <Card className="border-0 shadow-lg sticky top-8">
+    <Card className="border-0 shadow-lg sticky top-8 bg-background">
       <CardHeader>
-        <CardTitle>Order Summary</CardTitle>
+        <CardTitle className="text-foreground">Order Summary</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Items Breakdown */}
@@ -81,15 +81,19 @@ function CartSummary() {
               <span className="text-muted-foreground">
                 {item.name} × {item.quantity}
               </span>
-              <span className="font-medium">{formatINR(item.totalPrice)}</span>
+              <span className="font-medium text-foreground">
+                {formatINR(item.totalPrice)}
+              </span>
             </div>
           ))}
         </div>
 
-        <div className="border-t pt-4 space-y-2">
+        <div className="border-t border-border pt-4 space-y-2">
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Subtotal</span>
-            <span className="font-medium">{formatINR(data?.total)}</span>
+            <span className="font-medium text-foreground">
+              {formatINR(data?.total)}
+            </span>
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Shipping</span>
@@ -97,10 +101,10 @@ function CartSummary() {
           </div>
         </div>
 
-        <div className="border-t pt-4">
+        <div className="border-t border-border pt-4">
           <div className="flex justify-between text-lg font-bold">
-            <span>Total</span>
-            <span>{formatINR(data?.total)}</span>
+            <span className="text-foreground">Total</span>
+            <span className="text-foreground">{formatINR(data?.total)}</span>
           </div>
           <p className="text-xs text-muted-foreground mt-1">
             Including 18% GST
@@ -109,7 +113,7 @@ function CartSummary() {
 
         {/* Checkout Button */}
         <Link href="/checkout" className="block">
-          <Button className="w-full h-12 bg-primary hover:bg-primary/90 mt-6">
+          <Button className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground mt-6">
             Proceed to Checkout
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
@@ -119,7 +123,7 @@ function CartSummary() {
         <Link href="/products">
           <Button
             variant="outline"
-            className="w-full h-10 border-border hover:bg-muted bg-transparent"
+            className="w-full h-10 border-border hover:bg-muted bg-background text-foreground"
           >
             Continue Shopping
           </Button>
