@@ -15,7 +15,14 @@ import { Origins } from "#src/constants/origins";
 const app: Express = express();
 
 // default middlewares
-app.use(helmet());
+app.use(
+	helmet({
+		hidePoweredBy: true,
+		noSniff: true,
+		xssFilter: true,
+		ieNoOpen: true,
+	}),
+);
 app.use(
 	cors({
 		// allow the request origin (works with credentials)
@@ -28,7 +35,7 @@ app.use(
 		allowedHeaders: "Authorization,Content-Type",
 	}),
 );
-app.all("/api/auth/{*any}", toNodeHandler(auth));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -39,7 +46,7 @@ app.use(
 );
 
 // routes
-
+app.all("/api/auth/{*any}", toNodeHandler(auth));
 app.use("/api/business", businessRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/orders", ordersRouter);

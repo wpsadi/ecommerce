@@ -22,9 +22,12 @@ function Auth({ children }: { children: React.ReactNode }) {
 
 function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen  bg-muted">
       <Header />
-      <Auth>{children}</Auth>
+      <Auth>
+           <div className="container mx-auto px-4 py-8">{children}</div>
+
+      </Auth>
 
       <Footer />
     </div>
