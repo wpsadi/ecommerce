@@ -11,7 +11,7 @@ export function Footer() {
               <div className="w-8 h-8 bg-card rounded-lg flex items-center justify-center">
                 <div className="w-4 h-4 bg-foreground rounded-sm"></div>
               </div>
-              <span className="font-bold text-xl">Katachi</span>
+              <span className="font-bold text-xl">Ecomm</span>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Beautiful ecommerce platform for artisans and creators to showcase

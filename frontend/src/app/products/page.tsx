@@ -29,14 +29,16 @@ export default function ProductsPage() {
     <div className="container mx-auto px-4 py-8">
       {/* Page Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900 mb-2">All Products</h1>
-        <p className="text-slate-600">
+        <h1 className="text-3xl font-bold text-muted-foreground mb-2">
+          All Products
+        </h1>
+        <p className="text-muted-foreground">
           Discover our complete collection of handcrafted items
         </p>
       </div>
 
       {/* Filters and Controls */}
-      <div className="flex flex-col lg:flex-row gap-4 mb-8 p-4 bg-slate-50 rounded-lg">
+      <div className="flex flex-col lg:flex-row gap-4 mb-8 p-4 bg-muted rounded-lg">
         <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* <Select value={filterCategory} onValueChange={setFilterCategory}>
               <SelectTrigger>

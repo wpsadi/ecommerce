@@ -5,6 +5,7 @@ import { transporter } from "#/src/config/smtp";
 import { ac, owner } from "#config/permissions";
 import { prisma } from "#config/prisma";
 import { Origins } from "#src/constants/origins";
+import { redis } from "./redis";
 
 export const auth = betterAuth({
 	database: prismaAdapter(prisma, {
@@ -15,6 +16,7 @@ export const auth = betterAuth({
 		github: {
 			clientId: process.env.GITHUB_CLIENT_ID as string,
 			clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+			enabled: true,
 		},
 	},
 	trustedOrigins: Origins,
@@ -86,29 +88,19 @@ export const auth = betterAuth({
 
 	secondaryStorage: {
 		get: async (key) => {
-			const { redis } = await import("#config/redis");
-			await redis.connect();
-			const data = await redis.get(`${process.env.REDIS_PREFIX}:auth:${key}`);
-			await redis.close();
-			return data;
+			return await redis.get(`${process.env.REDIS_PREFIX}:auth:${key}`);
 		},
 		set: async (key, value, ttl) => {
-			const { redis } = await import("#config/redis");
-			await redis.connect();
-			if (ttl) {
-				await redis.set(`${process.env.REDIS_PREFIX}:auth:${key}`, value);
-				await redis.expire(`${process.env.REDIS_PREFIX}:auth:${key}`, ttl);
-			}
+			if (ttl)
+				await redis.set(`${process.env.REDIS_PREFIX}:auth:${key}`, value, {
+					EX: ttl,
+				});
 			// or for ioredis:
 			// if (ttl) await redis.set(key, value, 'EX', ttl)
 			else await redis.set(`${process.env.REDIS_PREFIX}:auth:${key}`, value);
-			await redis.close();
 		},
 		delete: async (key) => {
-			const { redis } = await import("#config/redis");
-			await redis.connect();
 			await redis.del(`${process.env.REDIS_PREFIX}:auth:${key}`);
-			await redis.close();
 		},
 	},
 });

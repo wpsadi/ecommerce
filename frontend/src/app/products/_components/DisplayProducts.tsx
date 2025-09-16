@@ -45,9 +45,11 @@ function DisplayProducts() {
 
   if (isPending) {
     return (
-      <div className="text-center py-12">
-        <Loader className="animate-spin" />
-        <p className="text-slate-500 text-lg">Loading Products</p>
+      <div className="text-center py-12 items-center flex justify-center">
+        <p className="text-slate-500 text-lg">
+          {" "}
+          Loading Products <Loader className="animate-spin inline" />
+        </p>
       </div>
     );
   }

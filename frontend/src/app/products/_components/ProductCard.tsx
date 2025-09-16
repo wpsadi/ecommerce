@@ -1,4 +1,5 @@
 import { Eye, ShoppingCart, Star } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -19,9 +20,11 @@ function ProductCard({ product }: { product: Product }) {
       <div
         className={`relative overflow-hidden bg-muted ${viewMode === "list" ? "w-48 flex-shrink-0" : "aspect-square"}`}
       >
-        <img
+        <Image
           src={product.mainImage || "/placeholder.svg"}
           alt={product.name}
+          height={200}
+          width={200}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
         {product.id === "2" && (

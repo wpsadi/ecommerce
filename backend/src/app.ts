@@ -28,6 +28,7 @@ app.use(
 		allowedHeaders: "Authorization,Content-Type",
 	}),
 );
+app.all("/api/auth/{*any}", toNodeHandler(auth));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -38,11 +39,15 @@ app.use(
 );
 
 // routes
-app.all("/api/auth/{*any}", toNodeHandler(auth));
+
 app.use("/api/business", businessRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/orders", ordersRouter);
 app.use("/api/payments", paymentRouter);
+
+app.use("/app", (_req, res) => {
+	res.redirect(process.env.FRONTEND_URL);
+});
 
 // health routes
 app.get("/health", (_req, res) => {

@@ -7,7 +7,7 @@ function Layout({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen bg-white">
       <Header />
 
-      <div className="container mx-auto px-4 py-8">{children}</div>
+      <div className="container mx-auto px-4 py-8 bg-muted">{children}</div>
 
       <Footer />
     </div>

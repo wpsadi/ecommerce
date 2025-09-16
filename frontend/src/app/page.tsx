@@ -2,15 +2,10 @@
 
 import { Footer } from "@/components/navigation/footer";
 import { Header } from "@/components/navigation/header";
-import { dummyProducts } from "@/lib/dummy-data";
-import { useCartStore } from "@/store/cart.store";
 import FeaturedProducts from "./_components/FeaturedProducts";
 import HeroSection from "./_components/HeroSection";
 
 export default function HomePage() {
-  const { addItem } = useCartStore();
-  const _featuredProducts = dummyProducts.slice(0, 3);
-
   return (
     <div className="min-h-screen bg-white">
       <Header />

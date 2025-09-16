@@ -21,12 +21,13 @@ const logger = winston.createLogger({
 			: []),
 		new winston.transports.MongoDB({
 			db: process.env.DATABASE_URL, // your MongoDB URI
-			options: { useUnifiedTopology: true },
 			collection: "applogs", // collection where logs will be stored
 			level: "info", // minimum level to log
 			tryReconnect: true,
-			capped: true, // optional: create capped collection
-			cappedMax: 10000, // max number of docs in capped collection
+			// optional: create capped collection
+			storeHost: true,
+			capped: true,
+			expireAfterSeconds: 604800, // optional: expire logs after 7 days
 		}),
 	],
 });
