@@ -25,8 +25,7 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen  bg-muted">
       <Header />
       <Auth>
-           <div className="container mx-auto px-4 py-8">{children}</div>
-
+        <div className="container mx-auto px-4 py-8">{children}</div>
       </Auth>
 
       <Footer />

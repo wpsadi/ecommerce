@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
+import { queryClient } from "@/components/tanstack-provider";
 
 export interface CartItem {
   productId: string;
@@ -35,11 +36,13 @@ export const useCartStore = create<ICartStore>()(
             state.items.push(item);
           }
         });
+        queryClient.invalidateQueries({ queryKey: ["cart-summary"] });
       },
       removeItem(productId) {
         set((state) => {
           state.items = state.items.filter((i) => i.productId !== productId);
         });
+        queryClient.invalidateQueries({ queryKey: ["cart-summary"] });
       },
       increaseItemQuantity(productId) {
         set((state) => {
@@ -48,6 +51,7 @@ export const useCartStore = create<ICartStore>()(
             item.quantity += 1;
           }
         });
+        queryClient.invalidateQueries({ queryKey: ["cart-summary"] });
       },
       decreaseItemQuantity(productId) {
         set((state) => {
@@ -58,11 +62,13 @@ export const useCartStore = create<ICartStore>()(
             state.items = state.items.filter((i) => i.productId !== productId);
           }
         });
+        queryClient.invalidateQueries({ queryKey: ["cart-summary"] });
       },
       clearCart() {
         set((state) => {
           state.items = [];
         });
+        queryClient.invalidateQueries({ queryKey: ["cart-summary"] });
       },
 
       hydrated: false,

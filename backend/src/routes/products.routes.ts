@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { uploadProductAssets } from "#config/multer";
+import { calculateBillController } from "#controllers/product.controllers/calculateBill";
 import { createProductController } from "#controllers/product.controllers/createProduct";
 import { deleteProductController } from "#controllers/product.controllers/deleteProduct";
 import { getProductController } from "#controllers/product.controllers/getProduct";
@@ -9,10 +10,13 @@ import { searchProductsController } from "#controllers/product.controllers/searc
 import { updateProductController } from "#controllers/product.controllers/updateProduct";
 import { authMiddleware } from "#middlewares/auth.middleware.ts";
 
+// Calculate bill for multiple products (public)
+
 const productsRouter = Router();
 
 // List all products with pagination (public)
 productsRouter.get("/", listProductsController);
+productsRouter.post("/bill", calculateBillController);
 // Search products by name with pagination (public)
 productsRouter.get("/search", searchProductsController);
 // List all products for a business (public)
