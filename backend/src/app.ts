@@ -53,8 +53,6 @@ app.use("/app", (_req, res) => {
 app.get("/health", (_req, res) => {
 	res.status(200).json({
 		status: "OK",
-		timestamp: new Date().toISOString(),
-		uptime: process.uptime(),
 	});
 });
 
@@ -63,6 +61,12 @@ app.all("*any", (req, res) => {
 	res.status(404).json({
 		error: "Route not found",
 		path: req.path,
+	});
+});
+
+// uptime
+app.get("/uptime", (_req, res) => {
+	res.status(200).json({
 		uptime: process.uptime(),
 	});
 });
