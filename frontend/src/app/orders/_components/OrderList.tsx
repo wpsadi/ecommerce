@@ -45,14 +45,9 @@ export default function OrderList() {
 
   return (
     <div className="space-y-6">
-      {orders
-        .sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-        )
-        .map((order) => (
-          <OrderCard key={order.id} order={order} />
-        ))}
+      {orders.map((order) => (
+        <OrderCard key={order.id} order={order} />
+      ))}
       {hasNextPage && (
         <div className="flex justify-center pt-4">
           <Button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>

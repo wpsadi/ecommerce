@@ -8,8 +8,8 @@ export const productValidator = {
 		businessId: z.string({ error: "Business ID is required" }),
 		name: z.string({ error: "Product name is required" }),
 		description: z.string().optional(),
-		price: z.number({ error: "Price is required" }),
-		quantity: z.number({ error: "Quantity is required" }),
+		price: z.coerce.number({ error: "Price is required" }),
+		quantity: z.coerce.number({ error: "Quantity is required" }),
 		// mainImage, sideImages, video handled by file upload
 	}),
 	params: z.object({

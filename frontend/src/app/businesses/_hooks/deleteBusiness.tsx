@@ -9,7 +9,7 @@ export const useDeleteBusiness = () => {
   return useMutation({
     mutationFn: async (businessId: string) => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/business/delete/${businessId}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/business/${businessId}`,
         {
           method: "DELETE",
           credentials: "include",

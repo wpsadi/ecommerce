@@ -3,8 +3,6 @@
 import { AlertCircle, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import LoadingSpinner from "@/components/LoadingScreen";
-import { Footer } from "@/components/navigation/footer";
-import { Header } from "@/components/navigation/header";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import BusinessesSection from "./_components/BusinessesSection";
@@ -30,12 +28,12 @@ export default function OrganizationDetailPage() {
   } = useMyBusiness();
 
   // Handle loading state
-  if ( orgPending || bizPending ) {
+  if (orgPending || bizPending) {
     return <LoadingSpinner />;
   }
 
   // Handle organization error
-  if ( orgError || !orgData ) {
+  if (orgError || !orgData) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background p-4">
         <Alert variant="destructive" className="max-w-md w-full">
@@ -52,7 +50,7 @@ export default function OrganizationDetailPage() {
   }
 
   // Handle business data error
-  if ( bizError ) {
+  if (bizError) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background p-4">
         <Alert variant="destructive" className="max-w-md w-full">
@@ -72,21 +70,20 @@ export default function OrganizationDetailPage() {
     id: orgData.id, // Ensure id is present
     name: orgData.name, // Ensure name is present
     createdAt: orgData.createdAt, // Ensure createdAt is present
-    updatedAt: new Date().toDateString(), // Ensure updatedAt is present
+    updatedAt: new Date(), // Ensure updatedAt is a Date object
   };
   const orgBusinesses =
-    businessData?.pages?.flatMap( ( page ) =>
-      page.businesses.map( ( business ) => ( {
+    businessData?.pages?.flatMap((page) =>
+      page.businesses.map((business) => ({
         ...business,
         createdAt: new Date(), // Convert to Date object
         updatedAt: new Date(), // Convert to Date object
-      } ) ),
+      })),
     ) || [];
   // No productsCount available, so just pass 0 for now
   const productsCount = 0;
 
   return (
-
     <main className="container mx-auto px-4 py-8">
       {/* Back Button */}
       <Button
@@ -113,6 +110,5 @@ export default function OrganizationDetailPage() {
         businesses={orgBusinesses}
       />
     </main>
-
   );
 }

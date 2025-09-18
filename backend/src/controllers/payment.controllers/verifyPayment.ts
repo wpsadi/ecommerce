@@ -9,12 +9,9 @@ export const verifyPaymentController = async (
 ) => {
 	try {
 		const validation = razorpayCallbackValidator.body.parse(req.body);
-		const result = await verifyPaymentService(validation);
+		await verifyPaymentService(validation);
 
-		return res.status(200).json({
-			success: true,
-			data: result,
-		});
+		return res.redirect(`${process.env.FRONTEND_URL}/orders`); // Redirect to success page with orderId
 	} catch (error) {
 		next(error);
 	}

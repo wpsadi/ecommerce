@@ -1,6 +1,6 @@
 // Currency utilities for INR formatting
 export function formatINR(amountInPaise: number): string {
-  const amount = amountInPaise / 100;
+  const amount = amountInPaise;
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",

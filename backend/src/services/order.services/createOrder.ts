@@ -7,10 +7,11 @@ import type { OrderInput } from "#validators/order.validations/orderValidator";
 export async function createOrderService(userId: string, data: OrderInput) {
 	// Validate products and calculate total
 	let totalAmount = 0;
+	const _orderId = uuidv4(); // Generate a unique order ID
 	const items: Array<{
 		id: string;
-		productId: string;
 		quantity: number;
+		// order: { connect: { id: string } };
 		price: number;
 		product: { connect: { id: string } };
 	}> = await Promise.all(
@@ -29,8 +30,11 @@ export async function createOrderService(userId: string, data: OrderInput) {
 			totalAmount += product.price * quantity;
 			return {
 				id: uuidv4(), // Generate a unique ID for each item
-				productId,
+				// productId,
 				quantity,
+				// orderId: orderId,
+				// order: { connect: { id: orderId } },
+
 				price: product.price,
 				product: { connect: { id: productId } },
 			};

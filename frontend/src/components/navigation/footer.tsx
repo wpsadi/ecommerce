@@ -56,7 +56,7 @@ export function Footer() {
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link
-                  href="/login"
+                  href="/auth"
                   className="hover:text-foreground transition-colors"
                 >
                   Login
@@ -64,7 +64,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/signup"
+                  href="/auth"
                   className="hover:text-foreground transition-colors"
                 >
                   Sign up

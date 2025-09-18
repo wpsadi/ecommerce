@@ -108,29 +108,28 @@ export const auth = betterAuth({
 	},
 	databaseHooks: {
 		user: {
-
 			create: {
-
-				async after(user, context) {
-						logger.info(`New user created: ${user.email} (${user.id})`);
-						// Automatically create an organization for the new user
-						logger.info(
-							`Creating organization for new user ${user.email} (${user.id})`,
-						);
-						await auth.api.createOrganization({
-						body: {
-							name: `${user?.name}'s Organization`,
-							keepCurrentActiveOrganization: true,
-							slug: user?.id!,
-							userId: user?.id,
-							
-						}
-					}).catch((err) => {
-						console.error(err)
-						logger.error(
-							`Error creating organization for user ${user?.email}: ${err.message}`,
-						);
-					});
+				async after(user, _context) {
+					logger.info(`New user created: ${user.email} (${user.id})`);
+					// Automatically create an organization for the new user
+					logger.info(
+						`Creating organization for new user ${user.email} (${user.id})`,
+					);
+					await auth.api
+						.createOrganization({
+							body: {
+								name: `${user?.name}'s Organization`,
+								keepCurrentActiveOrganization: true,
+								slug: user?.id,
+								userId: user?.id,
+							},
+						})
+						.catch((err) => {
+							console.error(err);
+							logger.error(
+								`Error creating organization for user ${user?.email}: ${err.message}`,
+							);
+						});
 
 					logger.info(
 						`Organization created for user ${user?.email} after account creation`,
@@ -138,8 +137,5 @@ export const auth = betterAuth({
 				},
 			},
 		},
-		
 	},
-
-	
 });

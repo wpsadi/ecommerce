@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, subscribeWithSelector } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { queryClient } from "@/components/tanstack-provider";
 
@@ -23,60 +23,64 @@ interface ICartStore {
 
 export const useCartStore = create<ICartStore>()(
   persist(
-    immer((set) => ({
-      items: [],
-      addItem(item) {
-        set((state) => {
-          const existingItem = state.items.find(
+    immer(
+      subscribeWithSelector((set, get) => ({
+        items: [],
+        addItem(item) {
+          const existingItem = get().items.find(
             (i) => i.productId === item.productId,
           );
-          if (existingItem) {
-            existingItem.quantity += item.quantity;
-          } else {
-            state.items.push(item);
-          }
-        });
-        queryClient.invalidateQueries({ queryKey: ["cart-summary"] });
-      },
-      removeItem(productId) {
-        set((state) => {
-          state.items = state.items.filter((i) => i.productId !== productId);
-        });
-        queryClient.invalidateQueries({ queryKey: ["cart-summary"] });
-      },
-      increaseItemQuantity(productId) {
-        set((state) => {
-          const item = state.items.find((i) => i.productId === productId);
-          if (item) {
-            item.quantity += 1;
-          }
-        });
-        queryClient.invalidateQueries({ queryKey: ["cart-summary"] });
-      },
-      decreaseItemQuantity(productId) {
-        set((state) => {
-          const item = state.items.find((i) => i.productId === productId);
-          if (item && item.quantity > 1) {
-            item.quantity -= 1;
-          } else if (item) {
+          set((state) => {
+            if (existingItem) {
+              existingItem.quantity += item.quantity;
+            } else {
+              state.items.push(item);
+            }
+          });
+          // queryClient.invalidateQueries( { queryKey: ["cart-summary"] } );
+        },
+        removeItem(productId) {
+          set((state) => {
             state.items = state.items.filter((i) => i.productId !== productId);
-          }
-        });
-        queryClient.invalidateQueries({ queryKey: ["cart-summary"] });
-      },
-      clearCart() {
-        set((state) => {
-          state.items = [];
-        });
-        queryClient.invalidateQueries({ queryKey: ["cart-summary"] });
-      },
+          });
+          // queryClient.invalidateQueries( { queryKey: ["cart-summary"] } );
+        },
+        increaseItemQuantity(productId) {
+          set((state) => {
+            const item = state.items.find((i) => i.productId === productId);
+            if (item) {
+              item.quantity += 1;
+            }
+          });
+          // queryClient.invalidateQueries( { queryKey: ["cart-summary"] } );
+        },
+        decreaseItemQuantity(productId) {
+          set((state) => {
+            const item = state.items.find((i) => i.productId === productId);
+            if (item && item.quantity > 1) {
+              item.quantity -= 1;
+            } else if (item) {
+              state.items = state.items.filter(
+                (i) => i.productId !== productId,
+              );
+            }
+          });
+          // queryClient.invalidateQueries( { queryKey: ["cart-summary"] } );
+        },
+        clearCart() {
+          set((state) => {
+            state.items = [];
+          });
+          // queryClient.invalidateQueries( { queryKey: ["cart-summary"] } );
+        },
 
-      hydrated: false,
+        hydrated: false,
 
-      setHydrated() {
-        set({ hydrated: true });
-      },
-    })),
+        setHydrated() {
+          set({ hydrated: true });
+        },
+      })),
+    ),
     {
       name: "cart",
       onRehydrateStorage() {
@@ -86,4 +90,11 @@ export const useCartStore = create<ICartStore>()(
       },
     },
   ),
+);
+
+useCartStore.subscribe(
+  (state) => state.items,
+  () => {
+    queryClient.invalidateQueries({ queryKey: ["cart-summary"] });
+  },
 );

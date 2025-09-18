@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-interface Response {
+export interface OrderResponse {
   error?: string;
   orders: ({
     items: {
@@ -39,7 +39,7 @@ export const useOrders = () => {
         },
       );
 
-      const data: Response = await res.json();
+      const data: OrderResponse = await res.json();
       if (data?.error) throw new Error(data.error);
 
       return data;

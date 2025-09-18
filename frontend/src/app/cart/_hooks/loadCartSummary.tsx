@@ -13,15 +13,19 @@ interface Response {
 }
 
 export const useCartSummary = () => {
-  const { items } = useCartStore();
+  const items = useCartStore((state) => state.items);
   return useQuery({
-    queryKey: ["cart-summary"],
-    queryFn: async () => {
+    queryKey: ["cart-summary", items], // include items in the key
+    queryFn: async ({ queryKey }) => {
+      const [_key, itemsArg] = queryKey;
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/products/bill`,
         {
           method: "POST",
-          body: JSON.stringify({ items }),
+          body: JSON.stringify({ items: itemsArg }),
+          headers: {
+            "Content-Type": "application/json",
+          },
           credentials: "include",
           cache: "no-store",
         },
@@ -30,7 +34,7 @@ export const useCartSummary = () => {
       if (data?.error) throw new Error(data.error);
       return data;
     },
-    enabled: items.length > 0,
+
     staleTime: 1000 * 60 * 5, // 5 minutes
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,

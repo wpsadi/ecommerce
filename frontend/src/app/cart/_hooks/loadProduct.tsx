@@ -1,9 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import type { Product } from "@/types/type";
 
-interface Response {
+interface Response extends Product {
   error?: string;
-  product: Product;
 }
 
 export const useProduct = (id: string) => {
@@ -22,7 +21,7 @@ export const useProduct = (id: string) => {
       const data: Response = await res.json();
       if (data?.error) throw new Error(data.error);
 
-      return data.product;
+      return data;
     },
     enabled: !!id,
     staleTime: 1000 * 60 * 5, // 5 minutes

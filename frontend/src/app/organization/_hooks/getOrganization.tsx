@@ -10,9 +10,8 @@ export const useOrganization = () => {
 
       if (!res?.data) throw new Error("You are not part of any organization");
 
-
-
-      if (res.data.length < 1 || res.data.length > 1) throw new Error("You are not part of any organization");
+      if (res.data.length < 1 || res.data.length > 1)
+        throw new Error("You are not part of any organization");
       return res.data[0];
     },
   });

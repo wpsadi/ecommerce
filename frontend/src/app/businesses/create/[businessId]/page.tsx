@@ -1,8 +1,8 @@
 "use client";
 
 import { ArrowLeft, Loader2, Upload } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Footer } from "@/components/navigation/footer";
 import { Header } from "@/components/navigation/header";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -17,23 +17,25 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useOrganization } from "../../_hooks/getOrganization";
+import { useOrganization } from "../../../organization/_hooks/getOrganization";
+import { useCreateBusinessPayment } from "../../_hooks/businessPayment";
+import { useGetBusiness } from "../../_hooks/getBusiness";
+import { useUpdateBusiness } from "../../_hooks/updateBusiness";
+import { validateUpiId } from "../../_hooks/validateUpiId";
+import { useCreateBusiness } from "../_hooks/createBusiness";
 
-import { useCreateBusinessPayment } from "../_hooks/businessPayment";
-import { validateUpiId } from "../_hooks/validateUpiId";
-import { useCreateBusiness } from "./_hooks/createBusiness";
-
-// PaymentDetails type for local state
-
-export default function CreateBusinessPage() {
+export default function CreateOrUpdateBusinessPage() {
   const router = useRouter();
+  const params = useParams();
+  const _searchParams = useSearchParams();
+  const businessId = params.businessId as string | undefined;
+  const isUpdate = !!businessId && businessId !== "create";
   const {
     data: orgData,
     isPending,
     isError,
     error: orgError,
   } = useOrganization();
-
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [businessType, setBusinessType] = useState<"INDIVIDUAL" | "COMPANY">(
@@ -46,12 +48,28 @@ export default function CreateBusinessPage() {
   const [logo, setLogo] = useState("");
   const [upiId, setUpiId] = useState("");
   const [error, setError] = useState("");
-
   const createBusinessMutation = useCreateBusiness();
-
+  const updateBusinessMutation = useUpdateBusiness();
   const createPaymentMutation = useCreateBusinessPayment();
+  const { data: business, isPending: isBusinessPending } = useGetBusiness(
+    businessId || "",
+  );
 
-  if (isPending) {
+  useEffect(() => {
+    if (isUpdate && business) {
+      setName(business.name || "");
+      setDescription(business.description || "");
+      // setLogo( business.logo || "" );
+      setBusinessType(business.businessType || "INDIVIDUAL");
+      setAddress(business.address || "");
+      setPhone(business.phone || "");
+      setEmail(business.email || "");
+      setWebsite(business.website || "");
+      // Optionally fetch and set UPI ID if needed
+    }
+  }, [isUpdate, business]);
+
+  if (isPending || (isUpdate && isBusinessPending)) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
@@ -74,7 +92,6 @@ export default function CreateBusinessPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    // Validate UPI ID if provided
     if (upiId.trim()) {
       const validation = validateUpiId(upiId);
       if (!validation.valid) {
@@ -82,37 +99,48 @@ export default function CreateBusinessPage() {
         return;
       }
     }
-    // Validate business form (let the hook throw for errors)
     try {
-      const business = await createBusinessMutation.mutateAsync({
-        organizationId: organization.id,
-        name,
-        businessType,
-        address: address || undefined,
-        phone: phone || undefined,
-        description: description || undefined,
-        email: email || undefined,
-        website: website || undefined,
-      });
-      // If UPI ID is provided, create payment info
+      let businessResult: { id: string }; // Explicitly type the variable
+      if (isUpdate) {
+        businessResult = await updateBusinessMutation.mutateAsync({
+          businessId: businessId!,
+          name,
+          description,
+          // logo,
+          businessType,
+          address: address || undefined,
+          phone: phone || undefined,
+          email: email || undefined,
+          website: website || undefined,
+        });
+      } else {
+        businessResult = await createBusinessMutation.mutateAsync({
+          organizationId: organization.id,
+          name,
+          businessType,
+          address: address || undefined,
+          phone: phone || undefined,
+          description: description || undefined,
+          email: email || undefined,
+          website: website || undefined,
+        });
+      }
       if (upiId.trim()) {
         await createPaymentMutation.mutateAsync({
-          businessId: business.id,
+          businessId: businessResult.id,
           upiId,
         });
       }
-      router.push(`/organization`);
+      router.push(`/organization/${organization.id}`);
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Failed to create business",
-      );
+      setError(err instanceof Error ? err.message : "Failed to save business");
     }
   };
 
   return (
-  
+    <div className="min-h-screen bg-background">
+      <Header />
       <div className="container mx-auto px-4 py-8">
-        {/* Back Button */}
         <Button
           variant="ghost"
           onClick={() => router.back()}
@@ -124,10 +152,12 @@ export default function CreateBusinessPage() {
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-foreground mb-2">
-              Create Business
+              {isUpdate ? "Update Business" : "Create Business"}
             </h1>
             <p className="text-muted-foreground">
-              Add a new business under {organization.name}
+              {isUpdate
+                ? "Update your business details"
+                : `Add a new business under ${organization.name}`}
             </p>
           </div>
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -136,12 +166,13 @@ export default function CreateBusinessPage() {
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
-            {/* Business Details */}
             <Card className="border-0 shadow-xl">
               <CardHeader>
                 <CardTitle>Business Details</CardTitle>
                 <CardDescription>
-                  Basic information about your business
+                  {isUpdate
+                    ? "Update your business information"
+                    : "Basic information about your business"}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -150,7 +181,6 @@ export default function CreateBusinessPage() {
                   <Input
                     id="name"
                     type="text"
-                    placeholder="Ceramic Studio"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
@@ -178,7 +208,6 @@ export default function CreateBusinessPage() {
                   <Input
                     id="address"
                     type="text"
-                    placeholder="123 Main St, City, Country"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     className="h-11"
@@ -189,7 +218,6 @@ export default function CreateBusinessPage() {
                   <Input
                     id="phone"
                     type="text"
-                    placeholder="+91 9876543210"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     className="h-11"
@@ -200,7 +228,6 @@ export default function CreateBusinessPage() {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="business@email.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="h-11"
@@ -211,7 +238,6 @@ export default function CreateBusinessPage() {
                   <Input
                     id="website"
                     type="url"
-                    placeholder="https://example.com"
                     value={website}
                     onChange={(e) => setWebsite(e.target.value)}
                     className="h-11"
@@ -221,7 +247,6 @@ export default function CreateBusinessPage() {
                   <Label htmlFor="description">Description</Label>
                   <Textarea
                     id="description"
-                    placeholder="Handcrafted ceramic vases and pottery..."
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     rows={3}
@@ -234,7 +259,6 @@ export default function CreateBusinessPage() {
                     <Input
                       id="logo"
                       type="url"
-                      placeholder="https://example.com/logo.png"
                       value={logo}
                       onChange={(e) => setLogo(e.target.value)}
                       className="h-11"
@@ -248,7 +272,6 @@ export default function CreateBusinessPage() {
                     </Button>
                   </div>
                 </div>
-                {/* Logo Preview */}
                 {logo && (
                   <div className="space-y-2">
                     <Label>Logo Preview</Label>
@@ -300,26 +323,32 @@ export default function CreateBusinessPage() {
                 </div>
               </CardContent>
             </Card>
-            {/* Submit Actions */}
             <div className="flex gap-3">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => router.back()}
-                className="flex-1 h-11 border-slate-300 hover:bg-slate-50"
+                className="flex-1"
               >
                 Cancel
               </Button>
               <Button
                 type="submit"
-                disabled={createBusinessMutation.isPending || !name.trim()}
+                disabled={
+                  createBusinessMutation.isPending ||
+                  updateBusinessMutation.isPending ||
+                  !name.trim()
+                }
                 className="flex-1 h-11 bg-slate-900 hover:bg-slate-800"
               >
-                {createBusinessMutation.isPending ? (
+                {createBusinessMutation.isPending ||
+                updateBusinessMutation.isPending ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Creating...
+                    {isUpdate ? "Updating..." : "Creating..."}
                   </>
+                ) : isUpdate ? (
+                  "Update Business"
                 ) : (
                   "Create Business"
                 )}
@@ -328,6 +357,7 @@ export default function CreateBusinessPage() {
           </form>
         </div>
       </div>
-     
+      <Footer />
+    </div>
   );
 }

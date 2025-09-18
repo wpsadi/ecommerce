@@ -1,25 +1,24 @@
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 
 export default function DeleteBusinessDialog({ business }: { business: any }) {
-  const [open, setOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [_open, _setOpen] = useState(false);
+  const [_isLoading, _setIsLoading] = useState(false);
 
-  const handleDelete = async () => {
-    setIsLoading(true);
-    // TODO: Wire up delete logic
-    setTimeout(() => {
-      setIsLoading(false);
-      setOpen(false);
-      alert("Business deleted (not implemented)");
-    }, 1000);
+  // const handleDelete = async () => {
+  //   setIsLoading(true);
+  //   // TODO: Wire up delete logic
+  //   setTimeout(() => {
+  //     setIsLoading(false);
+  //     setOpen(false);
+  //     alert("Business deleted (not implemented)");
+  //   }, 1000);
+  // };
+  const router = useRouter();
+
+  const deleteRoute = () => {
+    router.push(`/businesses/${business.id}/delete`);
   };
 
   return (
@@ -27,12 +26,15 @@ export default function DeleteBusinessDialog({ business }: { business: any }) {
       <Button
         variant="destructive"
         size="icon"
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          // setOpen(true)
+          deleteRoute();
+        }}
         title="Delete Business"
       >
         🗑️
       </Button>
-      <Dialog open={open} onOpenChange={setOpen}>
+      {/* <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Delete Business</DialogTitle>
@@ -57,7 +59,7 @@ export default function DeleteBusinessDialog({ business }: { business: any }) {
             </Button>
           </DialogFooter>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
     </>
   );
 }

@@ -11,6 +11,7 @@ export const createProductController = async (
 	next: NextFunction,
 ) => {
 	try {
+		console.log("Request body:", req.body);
 		const validation = productValidator.body.parse(req.body);
 		if (!req.user)
 			throw createHttpError.Unauthorized("Please login to continue");

@@ -5,13 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatINR } from "@/utils/currency";
 import { getPaymentStatusColor } from "../_helpers/getPaymentStatusColor";
-import { getStatusColor } from "../_helpers/getStatusColor";
-
+import type { OrderResponse } from "../_hooks/useOrders";
+import ProductCard from "./ProductCard";
 export default function OrderCard({
   order,
   onCancel,
 }: {
-  order: any;
+  order: OrderResponse["orders"][number];
   onCancel?: (id: string) => void;
 }) {
   return (
@@ -22,19 +22,19 @@ export default function OrderCard({
             <CardTitle className="text-lg">Order #{order.id}</CardTitle>
             <p className="text-sm text-muted-foreground mt-1">
               Placed on{" "}
-              {new Date(order.createdAt).toLocaleDateString("en-IN", {
+              {/* {new Date(order.createdAt).toLocaleDateString("en-IN", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
-              })}
+              })} */}
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <Badge className={getStatusColor(order.status)}>
+            {/* <Badge className={getStatusColor(order.status)}>
               {order.status.toUpperCase()}
-            </Badge>
-            <Badge className={getPaymentStatusColor(order.paymentStatus)}>
-              {order.paymentStatus.toUpperCase()}
+            </Badge> */}
+            <Badge className={getPaymentStatusColor(order.status)}>
+              {order.status.toUpperCase()}
             </Badge>
           </div>
         </div>
@@ -42,31 +42,9 @@ export default function OrderCard({
       <CardContent className="space-y-4">
         {/* Order Items */}
         <div className="space-y-3">
-          {order.items.map((item: any) => (
+          {order.items.map((item) => (
             <div key={item.id} className="flex gap-3 p-3 bg-muted rounded-lg">
-              <div className="w-16 h-16 bg-background rounded overflow-hidden flex-shrink-0">
-                <img
-                  src={item.product.mainImage || "/placeholder.svg"}
-                  alt={item.product.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="flex-1 min-w-0">
-                <h4 className="font-medium text-foreground line-clamp-1">
-                  {item.product.name}
-                </h4>
-                <p className="text-sm text-muted-foreground line-clamp-1">
-                  {item.product.description}
-                </p>
-                <div className="flex items-center gap-4 mt-1">
-                  <span className="text-sm text-muted-foreground">
-                    Qty: {item.quantity}
-                  </span>
-                  <span className="font-medium text-foreground">
-                    {formatINR(item.price * item.quantity)}
-                  </span>
-                </div>
-              </div>
+              <ProductCard orderItem={item} />
             </div>
           ))}
         </div>
@@ -83,13 +61,13 @@ export default function OrderCard({
         </div>
 
         {/* Shipping Address */}
-        <div className="p-3 bg-muted rounded-lg">
+        {/* <div className="p-3 bg-muted rounded-lg">
           <h5 className="font-medium text-foreground mb-1">Shipping Address</h5>
           <p className="text-sm text-muted-foreground">
             {order.shippingAddress.street}, {order.shippingAddress.city},{" "}
             {order.shippingAddress.state} {order.shippingAddress.pincode}
           </p>
-        </div>
+        </div> */}
 
         {/* Actions */}
         <div className="flex flex-wrap gap-3 pt-2">
@@ -104,7 +82,7 @@ export default function OrderCard({
             </Button>
           </Link>
 
-          {order.status === "pending" && onCancel && (
+          {order.status === "PENDING" && onCancel && (
             <Button
               variant="outline"
               size="sm"
@@ -116,7 +94,7 @@ export default function OrderCard({
             </Button>
           )}
 
-          {order.paymentStatus === "failed" && (
+          {order.status === "FAILED" && (
             <Button
               size="sm"
               className="bg-primary hover:bg-primary/90 text-primary-foreground"
@@ -126,7 +104,7 @@ export default function OrderCard({
             </Button>
           )}
 
-          {order.status === "delivered" && (
+          {order.status === "SUCCESSFULL" && (
             <Button
               variant="outline"
               size="sm"

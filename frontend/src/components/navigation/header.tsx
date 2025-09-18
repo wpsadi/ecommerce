@@ -28,6 +28,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
 import { useCartStore } from "@/store/cart.store";
+import { AnimatedThemeToggler } from "../ui/animated-theme-toggler";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -82,6 +83,9 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
+            <span className="text-muted-foreground hover:text-foreground font-medium flex items-center">
+              <AnimatedThemeToggler />
+            </span>
             <Link
               href="/products"
               className="text-muted-foreground hover:text-foreground font-medium"

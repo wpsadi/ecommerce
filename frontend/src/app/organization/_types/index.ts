@@ -19,7 +19,8 @@ export interface Business {
     id: string;
     name?: string | null;
   };
-  hasPaymentSetup?: boolean;
+  isAllowed: boolean;
+  isVerified: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

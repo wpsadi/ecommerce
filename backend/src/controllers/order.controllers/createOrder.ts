@@ -13,7 +13,10 @@ export const createOrderController = async (
 			throw createHttpError.Unauthorized("Please login to continue");
 		const validation = orderValidator.body.parse(req.body);
 		const order = await createOrderService(req.user.id, validation);
-		res.status(201).json(order);
+		res.status(201).json({
+			...order,
+			razorpayKeyId: process.env.RZP_KEY_ID,
+		});
 	} catch (err) {
 		next(err);
 	}

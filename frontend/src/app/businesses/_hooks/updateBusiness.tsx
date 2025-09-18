@@ -48,7 +48,7 @@ export const useUpdateBusiness = () => {
       const { businessId, ...dataToUpdate } = updateBusinessData;
       const validatedData = updateBusinessValidator.parse(dataToUpdate); // Validate input data
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/business/update/${businessId}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/business/${businessId}`,
         {
           method: "PUT",
           headers: {

@@ -14,7 +14,8 @@
 				"docker.docker",
 				"ms-azuretools.vscode-docker",
 				"foxundermoon.shell-format",
-				"vscode-icons-team.vscode-icons"
+				"vscode-icons-team.vscode-icons",
+				"Traycer.traycer-vscode"
 			]
 		}
 	},

@@ -1,6 +1,4 @@
-import { Building2, Settings } from "lucide-react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Building2 } from "lucide-react";
 import {
   Card,
   CardDescription,

@@ -8,7 +8,6 @@ import { useCartSummary } from "../_hooks/loadCartSummary";
 
 function CartSummary() {
   const { data, isError, isPending, error } = useCartSummary();
-
   if (isPending) {
     return (
       <Card className="border-0 shadow-lg sticky top-8 bg-background">

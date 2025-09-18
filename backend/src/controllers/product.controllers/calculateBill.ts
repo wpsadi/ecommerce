@@ -8,7 +8,8 @@ export async function calculateBillController(
 	next: NextFunction,
 ) {
 	try {
-		const parse = calculateBillValidator.parse(req.body);
+		console.log(req.body);
+		const parse = calculateBillValidator.parse(req.body || {});
 
 		const result = await calculateBillService(parse);
 		return res.json(result);

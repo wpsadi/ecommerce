@@ -4,6 +4,7 @@ import { useSearchProducts } from "../_hooks/useSearchProducts";
 import SearchProductCard from "./SearchProductCard";
 
 export default function SearchProductList({ query }: { query: string }) {
+  console.log(query);
   const {
     data,
     isLoading,
@@ -63,8 +64,8 @@ export default function SearchProductList({ query }: { query: string }) {
               ...product,
               mainImage: product.mainImage || "", // Ensure mainImage is always a string
               video: product.video || "", // Ensure video is always a string
-              createdAt: product.createdAt.toISOString(), // Convert Date to string
-              updatedAt: product.updatedAt.toISOString(), // Convert Date to string
+              createdAt: "", // Convert Date to string or fallback to ""
+              updatedAt: "", // Convert Date to string or fallback to ""
             }}
           />
         ))}

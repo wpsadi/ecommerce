@@ -10,6 +10,20 @@ export const searchProductsController = async (
 ) => {
 	try {
 		// Validate query parameters
+		if (!req.query.q) {
+			res.json({
+				products: [],
+				pagination: {
+					currentPage: 1,
+					totalPages: 0,
+					totalCount: 0,
+					limit: 20,
+					hasNextPage: false,
+					hasPrevPage: false,
+				},
+				searchQuery: "",
+			});
+		}
 		const validation = searchProductsValidator.query.safeParse(req.query);
 		if (!validation.success) {
 			throw createHttpError(

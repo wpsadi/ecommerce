@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowLeft, Heart, Play, Share2, ShoppingCart } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -141,9 +142,11 @@ export default function ProductDetailPage() {
                   )}
                 </div>
               ) : (
-                <img
+                <Image
                   src={allMedia[selectedImage] || "/placeholder.svg"}
                   alt={data.name}
+                  height={500}
+                  width={500}
                   className="w-full h-full object-cover"
                 />
               )}
@@ -180,9 +183,11 @@ export default function ProductDetailPage() {
                         </div>
                       </div>
                     ) : (
-                      <img
+                      <Image
                         src={media || "/placeholder.svg"}
                         alt=""
+                        height={100}
+                        width={100}
                         className="w-full h-full object-cover"
                       />
                     )}

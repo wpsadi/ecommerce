@@ -1,25 +1,14 @@
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 
 export default function UpdateBusinessDialog({ business }: { business: any }) {
-  const [open, setOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [_open, _setOpen] = useState(false);
+  const [_isLoading, _setIsLoading] = useState(false);
+  const router = useRouter();
 
-  const handleUpdate = async () => {
-    setIsLoading(true);
-    // TODO: Wire up update logic
-    setTimeout(() => {
-      setIsLoading(false);
-      setOpen(false);
-      alert("Business updated (not implemented)");
-    }, 1000);
+  const updateRoute = () => {
+    router.push(`/businesses/${business.id}/update`);
   };
 
   return (
@@ -27,12 +16,15 @@ export default function UpdateBusinessDialog({ business }: { business: any }) {
       <Button
         variant="outline"
         size="icon"
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          // setOpen(true)
+          updateRoute();
+        }}
         title="Edit Business"
       >
         ✏️
       </Button>
-      <Dialog open={open} onOpenChange={setOpen}>
+      {/* <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Update Business</DialogTitle>
@@ -57,7 +49,7 @@ export default function UpdateBusinessDialog({ business }: { business: any }) {
             </Button>
           </DialogFooter>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
     </>
   );
 }
