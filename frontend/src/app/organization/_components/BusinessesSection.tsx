@@ -18,7 +18,7 @@ export default function BusinessesSection({
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-foreground">Businesses</h2>
         <Link
-          href={`/organization/businesses/create?organizationId=${organization.id}`}
+          href={`/businesses/create?organizationId=${organization.id}`}
         >
           <Button className="bg-primary hover:bg-primary/90">
             <Plus className="mr-2 h-4 w-4" />
