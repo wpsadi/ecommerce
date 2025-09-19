@@ -12,7 +12,7 @@ interface IProductStore {
 export const useProductStore = create<IProductStore>()(
   persist(
     immer((set) => ({
-      viewMode: "grid",
+      viewMode: "list",
       setViewMode(viewMode) {
         set((state) => {
           state.viewMode = viewMode;
