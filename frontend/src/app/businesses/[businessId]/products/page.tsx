@@ -3,6 +3,18 @@
 import { Edit, Plus, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { useDeleteProduct } from "./_hooks/deleteProduct";
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,7 +30,7 @@ export default function BusinessProductsPage() {
   const params = useParams();
   const _router = useRouter();
   const businessId = params.businessId as string;
-  const { data, isPending, isError, error } = useBusinessProducts(businessId);
+  const { data, isPending, isError, error } = useBusinessProducts( businessId );
   type Product = {
     mainImage: string | undefined;
     sideImages: string[];
@@ -32,7 +44,9 @@ export default function BusinessProductsPage() {
     description: string | null;
     price: number;
   };
-  const products = (data ?? []) as Product[];
+  const products = ( data ?? [] ) as Product[];
+  const [deleteId, setDeleteId] = useState<string | null>( null );
+  const deleteProduct = useDeleteProduct();
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -60,7 +74,7 @@ export default function BusinessProductsPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((product: Product) => (
+          {products.map( ( product: Product ) => (
             <Card key={product.id} className="shadow-md border-0 flex flex-col">
               <CardHeader className="pb-2">
                 <div className="flex items-center gap-3">
@@ -116,22 +130,45 @@ export default function BusinessProductsPage() {
                       Update
                     </Button>
                   </Link>
-                  <Link
-                    href={`/businesses/${businessId}/products/${product.id}/delete`}
-                    className="flex-1"
-                  >
-                    <Button
-                      variant="destructive"
-                      className="w-full flex items-center gap-1"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                      Delete
-                    </Button>
-                  </Link>
+                  <Dialog open={deleteId === product.id} onOpenChange={( open ) => setDeleteId( open ? product.id : null )}>
+                    <DialogTrigger asChild>
+                      <Button
+                        variant="destructive"
+                        className="flex items-center gap-1"
+                        onClick={() => setDeleteId( product.id )}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        Delete
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Delete Product</DialogTitle>
+                        <DialogDescription>
+                          Are you sure you want to delete <b>{product.name}</b>? This action cannot be undone.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <DialogFooter>
+                        <DialogClose asChild>
+                          <Button variant="outline">Cancel</Button>
+                        </DialogClose>
+                        <Button
+                          variant="destructive"
+                          onClick={async () => {
+                            await deleteProduct.mutateAsync( product.id );
+                            setDeleteId( null );
+                          }}
+                          disabled={deleteProduct.isPending}
+                        >
+                          {deleteProduct.isPending ? "Deleting..." : "Delete"}
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </CardContent>
             </Card>
-          ))}
+          ) )}
         </div>
       )}
     </div>

@@ -2,6 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import createHttpError from "http-errors";
 import { deleteProductService } from "#services/product.services/deleteProduct";
 import { checkUserRole } from "#utils/betterauth";
+import { prisma } from "#src':/config/prisma.ts";
 
 export const deleteProductController = async (
 	req: Request,
@@ -14,17 +15,24 @@ export const deleteProductController = async (
 			throw createHttpError.Unauthorized("Please login to continue");
 
 		// Validate businessId
-		const businessId = req.body?.businessId;
-		if (!businessId || typeof businessId !== "string") {
-			throw createHttpError.BadRequest(
-				"Business ID is required to delete a product",
-			);
-		}
+		// const businessId = req.body?.businessId;
+		// if (!businessId || typeof businessId !== "string") {
+		// 	throw createHttpError.BadRequest(
+		// 		"Business ID is required to delete a product",
+		// 	);
+		// }
 		if (!productId || typeof productId !== "string") {
 			throw createHttpError.BadRequest(
 				"Product ID is required to delete a product",
 			);
 		}
+
+		// find product
+		const product = await prisma.product.findUnique( {
+			where: { id: productId },
+		} );
+		if ( !product ) throw createHttpError.NotFound( "Product not found" );
+		const businessId = product.businessId;
 
 		// Only owner of business can delete product
 		const isOwner = await checkUserRole(
