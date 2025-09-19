@@ -1,8 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
 import createHttpError from "http-errors";
 import { deleteProductService } from "#services/product.services/deleteProduct";
-import { checkUserRole } from "#utils/betterauth";
 import { prisma } from "#src':/config/prisma.ts";
+import { checkUserRole } from "#utils/betterauth";
 
 export const deleteProductController = async (
 	req: Request,
@@ -28,10 +28,10 @@ export const deleteProductController = async (
 		}
 
 		// find product
-		const product = await prisma.product.findUnique( {
+		const product = await prisma.product.findUnique({
 			where: { id: productId },
-		} );
-		if ( !product ) throw createHttpError.NotFound( "Product not found" );
+		});
+		if (!product) throw createHttpError.NotFound("Product not found");
 		const businessId = product.businessId;
 
 		// Only owner of business can delete product

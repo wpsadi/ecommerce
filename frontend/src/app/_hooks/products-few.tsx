@@ -16,7 +16,7 @@ export const useProductsFew = (businessId?: string) => {
     queryFn: async () => {
       const res = await fetch(
         new URL(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/products?businessId=${businessId}&page=1&limit=4`,
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/products?page=1&limit=3`,
         ),
       );
       if (!res.ok) throw new Error("Failed to fetch products");

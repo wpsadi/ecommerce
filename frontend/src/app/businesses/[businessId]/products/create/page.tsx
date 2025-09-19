@@ -17,25 +17,25 @@ export default function CreateProductPage() {
   const businessId = params.businessId as string;
 
   // State for form data
-  const [name, setName] = useState( "" );
-  const [price, setPrice] = useState( "" );
-  const [quantity, setQuantity] = useState( "" );
-  const [description, setDescription] = useState( "" );
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [description, setDescription] = useState("");
 
   // Media state - all images (main + side) and video
-  const [mainImage, setMainImage] = useState<File | null>( null );
-  const [mainImageUrl] = useState<string>( "" );
-  const [sideImages, setSideImages] = useState<( File | null )[]>( [
+  const [mainImage, setMainImage] = useState<File | null>(null);
+  const [mainImageUrl] = useState<string>("");
+  const [sideImages, setSideImages] = useState<(File | null)[]>([
     null,
     null,
     null,
-  ] );
-  const [sideImageUrls] = useState<string[]>( [] );
-  const [video, setVideo] = useState<File | null>( null );
-  const [videoUrl] = useState<string>( "" );
+  ]);
+  const [sideImageUrls] = useState<string[]>([]);
+  const [video, setVideo] = useState<File | null>(null);
+  const [videoUrl] = useState<string>("");
 
   // UI state
-  const [selectedImage, setSelectedImage] = useState( 0 );
+  const [selectedImage, setSelectedImage] = useState(0);
   const [descriptionTab, setDescriptionTab] = useState<"edit" | "preview">(
     "edit",
   );
@@ -43,71 +43,64 @@ export default function CreateProductPage() {
   const { mutate: createProduct, isPending } = useCreateProduct();
 
   // Media handlers
-  const handleMainImageFile = ( e: React.ChangeEvent<HTMLInputElement> ) => {
+  const handleMainImageFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if ( file ) {
-      setMainImage( file );
+    if (file) {
+      setMainImage(file);
     }
   };
 
-  const handleVideoFile = ( e: React.ChangeEvent<HTMLInputElement> ) => {
+  const handleVideoFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if ( file ) {
-      setVideo( file );
+    if (file) {
+      setVideo(file);
     }
   };
 
   const handleSideImageFile =
-    ( index: number ) => ( e: React.ChangeEvent<HTMLInputElement> ) => {
+    (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
-      if ( file ) {
+      if (file) {
         const newSideImages = [...sideImages];
         newSideImages[index] = file;
-        setSideImages( newSideImages );
+        setSideImages(newSideImages);
       }
     };
 
-
-
-  // Handle create button click
-  const handleCreateClick = () => {
-    handleSubmit( { preventDefault: () => { } } as React.FormEvent );
-  };
-
   // Submit handler
-  const handleSubmit = ( e: React.FormEvent ) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if ( !name || !price || !quantity ) {
-      alert( "Please fill in all required fields" );
+    if (!name || !price || !quantity) {
+      alert("Please fill in all required fields");
       return;
     }
 
     const formData = new FormData();
-    formData.append( "businessId", businessId );
-    formData.append( "name", name );
-    formData.append( "price", price );
-    formData.append( "quantity", quantity );
-    formData.append( "description", description );
+    formData.append("businessId", businessId);
+    formData.append("name", name);
+    formData.append("price", price);
+    formData.append("quantity", quantity);
+    formData.append("description", description);
 
     // Add files only (match edit page keys)
-    if ( mainImage ) {
-      formData.append( "mainImage", mainImage );
+    if (mainImage) {
+      formData.append("mainImage", mainImage);
     }
-    sideImages.forEach( ( img ) => {
-      if ( img ) {
-        formData.append( "sideImages", img );
+    sideImages.forEach((img) => {
+      if (img) {
+        formData.append("sideImages", img);
       }
-    } );
-    if ( video ) {
-      formData.append( "video", video );
+    });
+    if (video) {
+      formData.append("video", video);
     }
 
-    createProduct( formData, {
+    createProduct(formData, {
       onSuccess: () => {
-        router.push( `/businesses/${businessId}/products` );
+        router.push(`/businesses/${businessId}/products`);
       },
-    } );
+    });
   };
 
   return (
@@ -121,7 +114,7 @@ export default function CreateProductPage() {
                 variant="ghost"
                 size="sm"
                 onClick={() =>
-                  router.push( `/businesses/${businessId}/products` )
+                  router.push(`/businesses/${businessId}/products`)
                 }
                 className="mr-4"
               >
@@ -201,7 +194,6 @@ export default function CreateProductPage() {
           </div>
 
           <FloatingCreateButton
-            onClick={handleCreateClick}
             disabled={!name || !price || !quantity}
             isLoading={isPending}
           />

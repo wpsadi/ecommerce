@@ -39,7 +39,7 @@ export const useCreateProduct = () => {
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/products`,
         {
           method: "POST",
-         
+
           credentials: "include",
           body: formData, // Send FormData directly (don't set Content-Type header)
         },
