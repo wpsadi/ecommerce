@@ -1,8 +1,34 @@
+// Read order items by orderId or itemId
+export async function getOrderItems({
+	orderId,
+	itemId,
+}: {
+	orderId?: string;
+	itemId?: string;
+}) {
+	if (!orderId && !itemId) {
+		throw createHttpError(400, "Either orderId or itemId must be provided");
+	}
+
+	return prisma.orderItem.findMany({
+		where: {
+			orderId: orderId,
+			id: itemId,
+		},
+		include: {
+			product: true,
+			order: true,
+		},
+	});
+}
+
 import createHttpError from "http-errors";
 import { v4 as uuidv4 } from "uuid"; // Import UUID library
 import { prisma } from "#config/prisma";
 import { rzp } from "#config/rzp";
 import type { OrderInput } from "#validators/order.validations/orderValidator";
+
+// getOrderItems is defined below
 
 export async function createOrderService(userId: string, data: OrderInput) {
 	// Validate products and calculate total
@@ -52,8 +78,10 @@ export async function createOrderService(userId: string, data: OrderInput) {
 				create: items,
 			},
 		},
-		include: { items: true },
 	});
+
+	// Fetch enriched order items (with product and order details)
+	const orderItems = await getOrderItems({ orderId: order.id });
 
 	// Create Razorpay order
 	try {
@@ -76,9 +104,10 @@ export async function createOrderService(userId: string, data: OrderInput) {
 			},
 		});
 
-		// Return the updated order with payment information
+		// Return the updated order with payment information and enriched order items
 		return {
 			...order,
+			items: orderItems,
 			razorpayOrderId: rzpOrder.id,
 			status: "PENDING",
 			paymentInfo: {
@@ -98,9 +127,10 @@ export async function createOrderService(userId: string, data: OrderInput) {
 			data: { status: "PAYMENT_FAILED" },
 		});
 
-		// Return the order with failure status
+		// Return the order with failure status and enriched order items
 		return {
 			...order,
+			items: orderItems,
 			status: "PAYMENT_FAILED",
 			error: "Payment gateway error. Please try again later.",
 		};
