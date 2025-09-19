@@ -12,6 +12,7 @@ export const updateProductController = async (
 	next: NextFunction,
 ) => {
 	try {
+		console.log(1);
 		const { productId } = req.params;
 		if (!productId || typeof productId !== "string") {
 			throw createHttpError.BadRequest(
@@ -33,12 +34,13 @@ export const updateProductController = async (
 		const isOwner = await checkUserRole(
 			req.user.id,
 			businessId,
-			"OWNER",
+			"owner",
 			"business",
 		);
 		if (!isOwner)
 			throw createHttpError.Forbidden("You must be an owner of this business");
 
+		console.log(2);
 		// File upload logic for mainImage, sideImages, video (optional)
 		const files = req.files as Record<
 			string,
@@ -54,11 +56,22 @@ export const updateProductController = async (
 			if (file?.originalname && file.buffer) {
 				const ext = file.originalname.split(".").pop();
 				const key = `business/${businessId}/product/${productId}/mainImage.${ext}`;
-				const result = await s3.write(key, file.buffer);
+				console.log(key);
+				const result = await s3.write(key, file.buffer).catch((e) => {
+					console.error(e);
+				});
+				console.log(result);
 				if (!result) throw createHttpError(500, "Failed to upload main image");
 				mainImageUrl = key;
 			}
+		} else {
+			// Retain existing main image if no new one is uploaded
+			const existingMainImage = req.body.existingMainImage;
+			if (existingMainImage && typeof existingMainImage === "string") {
+				mainImageUrl = existingMainImage;
+			}
 		}
+		console.log(3);
 
 		if (Array.isArray(files?.sideImages) && files.sideImages.length > 0) {
 			sideImageUrls = [];
@@ -73,7 +86,19 @@ export const updateProductController = async (
 					sideImageUrls.push(key);
 				}
 			}
+		} else {
+			// Retain existing side images if no new ones are uploaded
+			const existingSideImages = req.body.existingSideImages;
+			if (existingSideImages) {
+				if (Array.isArray(existingSideImages)) {
+					sideImageUrls = existingSideImages.filter(Boolean);
+				} else if (typeof existingSideImages === "string") {
+					sideImageUrls = [existingSideImages];
+				}
+			}
 		}
+
+		console.log(4);
 
 		if (Array.isArray(files?.video) && files.video[0]) {
 			const file = files.video[0];
@@ -84,6 +109,12 @@ export const updateProductController = async (
 				if (!result) throw createHttpError(500, "Failed to upload video");
 				videoUrl = key;
 			}
+		} else {
+			// Retain existing video if no new one is uploaded
+			const existingVideo = req.body.existingVideo;
+			if (existingVideo && typeof existingVideo === "string") {
+				videoUrl = existingVideo;
+			}
 		}
 
 		// Only update fields that are provided, with type safety
@@ -92,10 +123,30 @@ export const updateProductController = async (
 			sideImages?: string[];
 			video?: string;
 		};
+		console.log(req.body);
 		const baseData: ProductUpdateInput = { ...req.body };
 		if (mainImageUrl) baseData.mainImage = mainImageUrl;
 		if (sideImageUrls) baseData.sideImages = sideImageUrls;
 		if (videoUrl) baseData.video = videoUrl;
+
+		// Validate price and quantity
+		const priceRaw = req.body.price;
+		const quantityRaw = req.body.quantity;
+		const price = priceRaw !== undefined ? Number(priceRaw) : undefined;
+		const quantity =
+			quantityRaw !== undefined ? Number(quantityRaw) : undefined;
+		if (price === undefined || Number.isNaN(price) || price <= 0) {
+			throw createHttpError.BadRequest(
+				"Valid price is required and must be a positive number",
+			);
+		}
+		if (quantity === undefined || Number.isNaN(quantity) || quantity < 0) {
+			throw createHttpError.BadRequest(
+				"Valid quantity is required and must be a non-negative number",
+			);
+		}
+		baseData.price = price;
+		baseData.quantity = quantity;
 
 		const updated = await updateProductService(productId, baseData);
 		res.json(updated);

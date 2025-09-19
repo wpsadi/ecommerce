@@ -1,16 +1,15 @@
 "use client";
 
-import { ArrowLeft, Heart, Play, Share2, ShoppingCart } from "lucide-react";
-import Image from "next/image";
+import { ArrowLeft, Heart, Share2, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { HeroVideoDialog } from "@/components/ui/hero-video-dialog";
 import { Label } from "@/components/ui/label";
 import { useCartStore } from "@/store/cart.store";
 import { formatINR } from "@/utils/currency";
+import { MediaLibrary } from "./_components/MediaLibrary";
 import { useProduct } from "./_hooks/loadProduct";
 
 export default function ProductDetailPage() {
@@ -23,11 +22,11 @@ export default function ProductDetailPage() {
 
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [_isVideoPlaying, setIsVideoPlaying] = useState(false);
 
   if (isPending) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="animate-spin rounded-full h-12 w-12 border-4 border-muted-foreground border-t-primary" />
           <span className="text-muted-foreground text-lg font-medium">
@@ -40,7 +39,7 @@ export default function ProductDetailPage() {
 
   if (isError || !data) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center ">
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center ">
         <div className="bg-destructive/10 border border-destructive rounded-lg p-8 flex flex-col items-center gap-4 shadow-md">
           <span className="text-destructive text-2xl font-bold">
             Error loading product
@@ -60,41 +59,38 @@ export default function ProductDetailPage() {
     );
   }
 
-  const allMedia = [
-    data.mainImage,
-    ...(data.video ? [data.video] : []),
-    ...data.sideImages,
-  ].filter(Boolean);
-
   const renderMarkdown = (text: string) => {
     return text
       .replace(
         /^# (.*$)/gm,
-        '<h1 class="text-2xl font-bold mb-4 text-slate-900">$1</h1>',
+        '<h1 class="text-2xl font-bold mb-4 text-foreground">$1</h1>',
       )
       .replace(
         /^## (.*$)/gm,
-        '<h2 class="text-xl font-semibold mb-3 text-slate-900">$1</h2>',
+        '<h2 class="text-xl font-semibold mb-3 text-foreground">$1</h2>',
       )
       .replace(
         /^### (.*$)/gm,
-        '<h3 class="text-lg font-medium mb-2 text-slate-900">$1</h3>',
+        '<h3 class="text-lg font-medium mb-2 text-foreground">$1</h3>',
       )
       .replace(
         /\*\*(.*?)\*\*/g,
-        '<strong class="font-semibold text-slate-900">$1</strong>',
+        '<strong class="font-semibold text-foreground">$1</strong>',
       )
-      .replace(/\*(.*?)\*/g, '<em class="italic text-slate-700">$1</em>')
-      .replace(/^- (.*$)/gm, '<li class="ml-4 text-slate-700">• $1</li>')
-      .replace(/\n\n/g, '</p><p class="mb-4 text-slate-700 leading-relaxed">')
+      .replace(/\*(.*?)\*/g, '<em class="italic text-muted-foreground">$1</em>')
+      .replace(/^- (.*$)/gm, '<li class="ml-4 text-muted-foreground">• $1</li>')
+      .replace(
+        /\n\n/g,
+        '</p><p class="mb-4 text-muted-foreground leading-relaxed">',
+      )
       .replace(
         /^(.+)$/gm,
-        '<p class="mb-4 text-slate-700 leading-relaxed">$1</p>',
+        '<p class="mb-4 text-muted-foreground leading-relaxed">$1</p>',
       );
   };
 
   return (
-    <div className="">
+    <div className="bg-background">
       <div className="container mx-auto px-4 py-8">
         {/* Back Button */}
         <Button
@@ -106,98 +102,28 @@ export default function ProductDetailPage() {
           Back
         </Button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Product Images */}
-          <div className="space-y-4">
-            {/* Main Image/Video */}
-            <div className="aspect-square bg-muted rounded-lg overflow-hidden shadow-md">
-              {allMedia[selectedImage]?.includes(".mp4") ? (
-                <div className="relative w-full h-full">
-                  <HeroVideoDialog
-                    className="w-full h-full object-cover"
-                    animationStyle="from-center"
-                    videoSrc={allMedia[selectedImage] || "/placeholder.mp4"}
-                    thumbnailSrc="https://startup-template-sage.vercel.app/hero-dark.png"
-                    thumbnailAlt="Product Detail"
-
-                    // onClick={() => setIsVideoPlaying( !isVideoPlaying )}
-                  />
-
-                  {/* <video
-                    src={allMedia[selectedImage] || "/placeholder.mp4"}
-                    className="w-full h-full object-cover"
-                    controls={isVideoPlaying}
-                    // onClick={() => setIsVideoPlaying( !isVideoPlaying )}
-                  /> */}
-                  {!isVideoPlaying && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                      <Button
-                        size="lg"
-                        className="rounded-full w-16 h-16 bg-background/90 hover:bg-background text-foreground shadow-lg"
-                        onClick={() => setIsVideoPlaying(true)}
-                      >
-                        <Play className="h-6 w-6 ml-1" />
-                      </Button>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <Image
-                  src={allMedia[selectedImage] || "/placeholder.svg"}
-                  alt={data.name}
-                  height={500}
-                  width={500}
-                  className="w-full h-full object-cover"
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Left Column - Media Gallery */}
+          <div className="space-y-6">
+            <Card className="bg-card border-border shadow-sm">
+              <CardContent className="p-6">
+                <h2 className="text-lg font-semibold mb-4 text-foreground">
+                  Product Media
+                </h2>
+                <MediaLibrary
+                  mainImageUrl={data.mainImage || ""}
+                  videoUrl={data.video || ""}
+                  sideImageUrls={data.sideImages || []}
+                  selectedImage={selectedImage}
+                  productName={data.name}
+                  onImageSelect={setSelectedImage}
+                  onVideoToggle={setIsVideoPlaying}
                 />
-              )}
-            </div>
-
-            {/* Thumbnail Gallery */}
-            {allMedia.length > 1 && (
-              <div className="grid grid-cols-4 gap-2">
-                {allMedia.map((media, index) => (
-                  <Button
-                    key={index.toString()}
-                    onClick={() => {
-                      setSelectedImage(index);
-                      setIsVideoPlaying(false);
-                    }}
-                    className={`aspect-square bg-muted rounded-lg overflow-hidden border-2 transition-colors ${
-                      selectedImage === index
-                        ? "border-primary"
-                        : "border-transparent hover:border-muted-foreground"
-                    }`}
-                  >
-                    {media?.includes(".mp4") ? (
-                      <div className="relative w-full h-full">
-                        <HeroVideoDialog
-                          className="w-full h-full object-cover"
-                          animationStyle="from-center"
-                          videoSrc={media || "/placeholder.mp4"}
-                          thumbnailSrc="https://startup-template-sage.vercel.app/hero-dark.png"
-                          thumbnailAlt="Hero Video"
-                        />
-
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                          <Play className="h-4 w-4 text-white" />
-                        </div>
-                      </div>
-                    ) : (
-                      <Image
-                        src={media || "/placeholder.svg"}
-                        alt=""
-                        height={100}
-                        width={100}
-                        className="w-full h-full object-cover"
-                      />
-                    )}
-                  </Button>
-                ))}
-              </div>
-            )}
+              </CardContent>
+            </Card>
           </div>
 
-          {/* Product Info */}
+          {/* Right Column - Product Information */}
           <div className="space-y-8">
             {/* Header */}
             <div>
@@ -256,7 +182,7 @@ export default function ProductDetailPage() {
                 className={`w-3 h-3 rounded-full ${data.quantity ? "bg-green-500" : "bg-red-500"}`}
               ></div>
               <span
-                className={`font-medium ${data.quantity ? "text-green-700" : "text-red-700"}`}
+                className={`font-medium ${data.quantity ? "text-green-600" : "text-red-600"}`}
               >
                 {data.quantity
                   ? `In Stock (${data.quantity} available)`
@@ -271,7 +197,7 @@ export default function ProductDetailPage() {
                   <Label className="font-medium text-foreground">
                     Quantity:
                   </Label>
-                  <div className="flex items-center border border-muted-foreground rounded-lg">
+                  <div className="flex items-center border border-border rounded-lg">
                     <Button
                       variant="ghost"
                       size="sm"
@@ -280,7 +206,7 @@ export default function ProductDetailPage() {
                     >
                       -
                     </Button>
-                    <span className="w-12 text-center font-medium">
+                    <span className="w-12 text-center font-medium text-foreground">
                       {quantity}
                     </span>
                     <Button
@@ -312,7 +238,7 @@ export default function ProductDetailPage() {
                   <Link href="/cart" className="flex-1">
                     <Button
                       variant="outline"
-                      className="w-full h-12 border-muted-foreground hover:bg-muted bg-transparent"
+                      className="w-full h-12 border-border hover:bg-muted bg-background"
                     >
                       Buy Now
                     </Button>
@@ -320,21 +246,20 @@ export default function ProductDetailPage() {
                 </div>
               </div>
             )}
-          </div>
-        </div>
 
-        {/* Product Content */}
-        <div className="mt-16">
-          <Card className="border-0 shadow-lg bg-muted">
-            <CardContent className="p-8">
+            {/* Product Description */}
+            <div className="space-y-4">
+              <h2 className="text-lg font-semibold text-foreground">
+                Description
+              </h2>
               <div
-                className="prose prose-slate max-w-none text-foreground"
+                className="prose prose-sm max-w-none dark:prose-invert text-foreground"
                 dangerouslySetInnerHTML={{
                   __html: renderMarkdown(data.description || ""),
                 }}
               />
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
     </div>

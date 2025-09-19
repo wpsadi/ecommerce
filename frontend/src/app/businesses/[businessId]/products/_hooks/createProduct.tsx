@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import z from "zod";
 
 interface CreateProductResponse {
   error?: string; // Changed from MessageChannel to string
@@ -15,15 +16,34 @@ interface CreateProductResponse {
   video: string | null;
 }
 
+export const createProductValidator = z.object(
+  {
+    businessId: z.string({ error: "Business ID is required" }),
+    name: z.string({ error: "Product name is required" }),
+    description: z.string().optional(),
+    price: z.coerce.number({ error: "Price is required" }),
+    quantity: z.coerce.number({ error: "Quantity is required" }),
+  },
+  {
+    error: "Data is undefined",
+  },
+);
+
 export const useCreateProduct = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (formData: FormData): Promise<CreateProductResponse> => {
+      createProductValidator.parse(Object.fromEntries(formData.entries()));
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/products`,
         {
           method: "POST",
+          headers: {
+            Accept:
+              "application/json, application/xml, text/plain, text/html, *.*",
+            "Content-Type": "multipart/form-data",
+          },
           credentials: "include",
           body: formData, // Send FormData directly (don't set Content-Type header)
         },
