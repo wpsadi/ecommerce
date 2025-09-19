@@ -10,6 +10,7 @@ import {
   Upload,
   Video,
 } from "lucide-react";
+import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
@@ -71,7 +72,7 @@ export default function CreateProductPage() {
 
   const getSideImagePreview = (index: number) => {
     if (sideImageFiles[index])
-      return URL.createObjectURL(sideImageFiles[index]!);
+      return URL.createObjectURL(sideImageFiles[index]);
     return sideImageUrls[index];
   };
 
@@ -216,9 +217,12 @@ export default function CreateProductPage() {
                     )}
                   </div>
                 ) : (
-                  <img
+                  <Image
                     src={allMedia[selectedImage] || "/placeholder.svg"}
                     alt="Product"
+                    fill
+                    height={400}
+                    width={400}
                     className="w-full h-full object-cover"
                   />
                 )
@@ -246,9 +250,12 @@ export default function CreateProductPage() {
                   }`}
                 >
                   {getMainImagePreview() ? (
-                    <img
+                    <Image
                       src={getMainImagePreview()}
                       alt=""
+                      fill
+                      height={400}
+                      width={400}
                       className="w-full h-full object-cover"
                     />
                   ) : (
@@ -322,9 +329,12 @@ export default function CreateProductPage() {
                     }`}
                   >
                     {getSideImagePreview(index) ? (
-                      <img
+                      <Image
                         src={getSideImagePreview(index)}
                         alt=""
+                        fill
+                        height={400}
+                        width={400}
                         className="w-full h-full object-cover"
                       />
                     ) : (

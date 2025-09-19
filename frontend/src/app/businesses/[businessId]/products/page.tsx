@@ -1,6 +1,7 @@
 "use client";
 
 import { Edit, Plus, Trash2 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -65,8 +66,10 @@ export default function BusinessProductsPage() {
                 <div className="flex items-center gap-3">
                   <div className="w-16 h-16 bg-muted rounded-lg overflow-hidden flex-shrink-0">
                     {product.mainImage ? (
-                      <img
+                      <Image
                         src={product.mainImage}
+                        height={64}
+                        width={64}
                         alt={product.name}
                         className="w-full h-full object-cover"
                       />

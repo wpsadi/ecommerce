@@ -15,7 +15,7 @@ export const useDeleteBusiness = () => {
           credentials: "include",
         },
       );
-      const data = await res.json();
+      const data: Response = await res.json();
       if (data?.error) throw new Error(data.error);
       return data;
     },

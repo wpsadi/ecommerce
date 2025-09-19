@@ -1,8 +1,13 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import type { Business } from "../_types";
 
-export default function DeleteBusinessDialog({ business }: { business: any }) {
+export default function DeleteBusinessDialog({
+  business,
+}: {
+  business: Business;
+}) {
   const [_open, _setOpen] = useState(false);
   const [_isLoading, _setIsLoading] = useState(false);
 

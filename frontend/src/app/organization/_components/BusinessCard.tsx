@@ -1,4 +1,5 @@
 import { CreditCard, Package } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useGetBusinessPayment } from "@/app/businesses/_hooks/businessPayment";
 import { Badge } from "@/components/ui/badge";
@@ -19,9 +20,7 @@ interface BusinessCardProps {
 }
 
 export default function BusinessCard({ business }: BusinessCardProps) {
-  const { data, isPending, isError, error } = useGetBusinessPayment(
-    business.id,
-  );
+  const { data, isPending, isError } = useGetBusinessPayment(business.id);
   return (
     <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
       <CardHeader className="pb-4">
@@ -29,9 +28,11 @@ export default function BusinessCard({ business }: BusinessCardProps) {
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-muted rounded-lg overflow-hidden">
               {business.logo ? (
-                <img
+                <Image
                   src={business.logo}
                   alt={business.name}
+                  height={48}
+                  width={48}
                   className="w-full h-full object-cover"
                 />
               ) : (

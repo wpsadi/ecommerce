@@ -9,6 +9,7 @@ import {
   Trash2,
   Upload,
 } from "lucide-react";
+import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -246,9 +247,12 @@ export default function EditProductPage() {
                   )}
                 </div>
               ) : (
-                <img
+                <Image
                   src={allMedia[selectedImage] || "/placeholder.svg"}
                   alt={name}
+                  fill
+                  height={400}
+                  width={400}
                   className="w-full h-full object-cover"
                 />
               )
@@ -272,9 +276,12 @@ export default function EditProductPage() {
               }`}
             >
               {mainImage ? (
-                <img
+                <Image
                   src={mainImage}
                   alt=""
+                  fill
+                  height={400}
+                  width={400}
                   className="w-full h-full object-cover"
                 />
               ) : (
@@ -324,9 +331,12 @@ export default function EditProductPage() {
                 }`}
               >
                 {image ? (
-                  <img
+                  <Image
                     src={image}
                     alt=""
+                    fill
+                    height={400}
+                    width={400}
                     className="w-full h-full object-cover"
                   />
                 ) : (

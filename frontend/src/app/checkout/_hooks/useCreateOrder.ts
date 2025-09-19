@@ -28,7 +28,7 @@ interface Response {
 
 export function useCreateOrder() {
   const items = useCartStore((s) => s.items);
-  const { error, isLoading, Razorpay } = useRazorpay();
+  const { Razorpay } = useRazorpay();
   const clearCart = useCartStore((s) => s.clearCart);
   const { data: userData } = useUser();
   const _router = useRouter();
@@ -65,7 +65,7 @@ export function useCreateOrder() {
         currency: "INR",
         name: "Ecommerce Shop",
         description: paymentNote,
-        order_id: data.razorpayOrderId!,
+        order_id: data.razorpayOrderId,
         callback_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/api/payments/razorpay/callback`,
         prefill: {
           name: userData?.user.name,

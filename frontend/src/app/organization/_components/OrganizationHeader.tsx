@@ -21,7 +21,7 @@ export default function OrganizationHeader({
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 bg-muted rounded-lg overflow-hidden">
               {organization.logo ? (
-                <img
+                <Image
                   src={organization.logo || "/placeholder.svg"}
                   alt={organization.name}
                   className="w-full h-full object-cover"

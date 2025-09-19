@@ -28,7 +28,7 @@ interface PixelImageProps {
   colorRevealDelay?: number; // in ms
 }
 
-export const PixelImage = ({
+export const PixelImage = ( {
   src,
   grid = "6x4",
   grayscaleAnimation = true,
@@ -36,20 +36,20 @@ export const PixelImage = ({
   maxAnimationDelay = 1200,
   colorRevealDelay = 1300,
   customGrid,
-}: PixelImageProps) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [showColor, setShowColor] = useState(false);
+}: PixelImageProps ) => {
+  const [isVisible, setIsVisible] = useState( false );
+  const [showColor, setShowColor] = useState( false );
 
   const MIN_GRID = 1;
   const MAX_GRID = 16;
 
-  const { rows, cols } = useMemo(() => {
-    const isValidGrid = (grid?: Grid) => {
-      if (!grid) return false;
+  const { rows, cols } = useMemo( () => {
+    const isValidGrid = ( grid?: Grid ) => {
+      if ( !grid ) return false;
       const { rows, cols } = grid;
       return (
-        Number.isInteger(rows) &&
-        Number.isInteger(cols) &&
+        Number.isInteger( rows ) &&
+        Number.isInteger( cols ) &&
         rows >= MIN_GRID &&
         cols >= MIN_GRID &&
         rows <= MAX_GRID &&
@@ -57,28 +57,28 @@ export const PixelImage = ({
       );
     };
 
-    return isValidGrid(customGrid) ? customGrid! : DEFAULT_GRIDS[grid];
-  }, [customGrid, grid]);
+    return isValidGrid( customGrid ) ? customGrid! : DEFAULT_GRIDS[grid];
+  }, [customGrid, grid] );
 
-  useEffect(() => {
-    setIsVisible(true);
-    const colorTimeout = setTimeout(() => {
-      setShowColor(true);
-    }, colorRevealDelay);
-    return () => clearTimeout(colorTimeout);
-  }, [colorRevealDelay]);
+  useEffect( () => {
+    setIsVisible( true );
+    const colorTimeout = setTimeout( () => {
+      setShowColor( true );
+    }, colorRevealDelay );
+    return () => clearTimeout( colorTimeout );
+  }, [colorRevealDelay] );
 
-  const pieces = useMemo(() => {
+  const pieces = useMemo( () => {
     const total = rows * cols;
-    return Array.from({ length: total }, (_, index) => {
-      const row = Math.floor(index / cols);
+    return Array.from( { length: total }, ( _, index ) => {
+      const row = Math.floor( index / cols );
       const col = index % cols;
 
       const clipPath = `polygon(
-        ${col * (100 / cols)}% ${row * (100 / rows)}%,
-        ${(col + 1) * (100 / cols)}% ${row * (100 / rows)}%,
-        ${(col + 1) * (100 / cols)}% ${(row + 1) * (100 / rows)}%,
-        ${col * (100 / cols)}% ${(row + 1) * (100 / rows)}%
+        ${col * ( 100 / cols )}% ${row * ( 100 / rows )}%,
+        ${( col + 1 ) * ( 100 / cols )}% ${row * ( 100 / rows )}%,
+        ${( col + 1 ) * ( 100 / cols )}% ${( row + 1 ) * ( 100 / rows )}%,
+        ${col * ( 100 / cols )}% ${( row + 1 ) * ( 100 / rows )}%
       )`;
 
       const delay = Math.random() * maxAnimationDelay;
@@ -86,12 +86,12 @@ export const PixelImage = ({
         clipPath,
         delay,
       };
-    });
-  }, [rows, cols, maxAnimationDelay]);
+    } );
+  }, [rows, cols, maxAnimationDelay] );
 
   return (
     <div className="relative h-72 w-72 select-none md:h-96 md:w-96">
-      {pieces.map((piece, index) => (
+      {pieces.map( ( piece, index ) => (
         <div
           key={index}
           className={cn(
@@ -104,12 +104,12 @@ export const PixelImage = ({
             transitionDuration: `${pixelFadeInDuration}ms`,
           }}
         >
-          <img
+          <Image
             src={src}
             alt={`Pixel image piece ${index + 1}`}
             className={cn(
               "z-1 object-cover rounded-[2.5rem]",
-              grayscaleAnimation && (showColor ? "grayscale-0" : "grayscale"),
+              grayscaleAnimation && ( showColor ? "grayscale-0" : "grayscale" ),
             )}
             style={{
               transition: grayscaleAnimation
@@ -119,7 +119,7 @@ export const PixelImage = ({
             draggable={false}
           />
         </div>
-      ))}
+      ) )}
     </div>
   );
 };

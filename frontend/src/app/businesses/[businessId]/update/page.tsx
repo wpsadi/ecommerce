@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader2, Upload } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Footer } from "@/components/navigation/footer";
@@ -33,7 +33,7 @@ export default function UpdateBusinessPage() {
   const updateBusinessMutation = useUpdateBusiness();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [logo, setLogo] = useState("");
+  const [_logo, _setLogo] = useState("");
   const [businessType, setBusinessType] = useState<"INDIVIDUAL" | "COMPANY">(
     "INDIVIDUAL",
   );
@@ -190,7 +190,7 @@ export default function UpdateBusinessPage() {
                   className="resize-none"
                 />
               </div>
-              <div className="space-y-2">
+              {/*<div className="space-y-2">
                 <Label htmlFor="logo">Logo URL</Label>
                 <div className="flex gap-3">
                   <Input
@@ -213,7 +213,7 @@ export default function UpdateBusinessPage() {
                 <div className="space-y-2">
                   <Label>Logo Preview</Label>
                   <div className="w-20 h-20 bg-slate-100 rounded-lg overflow-hidden border">
-                    <img
+                    <Image
                       src={logo || "/placeholder.svg"}
                       alt="Logo preview"
                       className="w-full h-full object-cover"
@@ -225,6 +225,7 @@ export default function UpdateBusinessPage() {
                   </div>
                 </div>
               )}
+               */}
             </CardContent>
           </Card>
           <div className="flex gap-3">

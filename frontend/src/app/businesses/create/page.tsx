@@ -1,6 +1,7 @@
 "use client";
 
 import { Loader2, Upload } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Footer } from "@/components/navigation/footer";
@@ -17,7 +18,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useOrganization } from "../../organization/_hooks/getOrganization";
-
 import { useCreateBusinessPayment } from "../_hooks/businessPayment";
 import { validateUpiId } from "../_hooks/validateUpiId";
 import { useCreateBusiness } from "./_hooks/createBusiness";
@@ -26,12 +26,7 @@ import { useCreateBusiness } from "./_hooks/createBusiness";
 
 export default function CreateBusinessPage() {
   const router = useRouter();
-  const {
-    data: orgData,
-    isPending,
-    isError,
-    error: orgError,
-  } = useOrganization();
+  const { isPending } = useOrganization();
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -169,9 +164,12 @@ export default function CreateBusinessPage() {
                 <div className="space-y-2">
                   <Label>Logo Preview</Label>
                   <div className="w-20 h-20 bg-slate-100 rounded-lg overflow-hidden border">
-                    <img
+                    <Image
                       src={logo || "/placeholder.svg"}
                       alt="Logo preview"
+                      fill
+                      height={80}
+                      width={80}
                       className="w-full h-full object-cover"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;

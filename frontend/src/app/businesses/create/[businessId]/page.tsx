@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowLeft, Loader2, Upload } from "lucide-react";
+import Image from "next/image";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Footer } from "@/components/navigation/footer";
@@ -103,7 +104,7 @@ export default function CreateOrUpdateBusinessPage() {
       let businessResult: { id: string }; // Explicitly type the variable
       if (isUpdate) {
         businessResult = await updateBusinessMutation.mutateAsync({
-          businessId: businessId!,
+          businessId: businessId,
           name,
           description,
           // logo,
@@ -276,9 +277,11 @@ export default function CreateOrUpdateBusinessPage() {
                   <div className="space-y-2">
                     <Label>Logo Preview</Label>
                     <div className="w-20 h-20 bg-slate-100 rounded-lg overflow-hidden border">
-                      <img
+                      <Image
                         src={logo || "/placeholder.svg"}
                         alt="Logo preview"
+                        height={80}
+                        width={80}
                         className="w-full h-full object-cover"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;

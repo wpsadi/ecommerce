@@ -67,25 +67,25 @@ const animationVariants = {
   },
 };
 
-export function HeroVideoDialog({
+export function HeroVideoDialog( {
   animationStyle = "from-center",
   videoSrc,
   thumbnailSrc,
   thumbnailAlt = "Video thumbnail",
   className,
-}: HeroVideoProps) {
-  const [isVideoOpen, setIsVideoOpen] = useState(false);
+}: HeroVideoProps ) {
+  const [isVideoOpen, setIsVideoOpen] = useState( false );
   const selectedAnimation = animationVariants[animationStyle];
 
   return (
-    <div className={cn("relative", className)}>
+    <div className={cn( "relative", className )}>
       <button
         type="button"
         aria-label="Play video"
         className="group relative cursor-pointer border-0 bg-transparent p-0"
-        onClick={() => setIsVideoOpen(true)}
+        onClick={() => setIsVideoOpen( true )}
       >
-        <img
+        <Image
           src={thumbnailSrc}
           alt={thumbnailAlt}
           width={1920}
@@ -115,12 +115,12 @@ export function HeroVideoDialog({
             animate={{ opacity: 1 }}
             role="button"
             tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === "Escape" || e.key === "Enter" || e.key === " ") {
-                setIsVideoOpen(false);
+            onKeyDown={( e ) => {
+              if ( e.key === "Escape" || e.key === "Enter" || e.key === " " ) {
+                setIsVideoOpen( false );
               }
             }}
-            onClick={() => setIsVideoOpen(false)}
+            onClick={() => setIsVideoOpen( false )}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-md"
           >
