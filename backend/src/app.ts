@@ -45,6 +45,10 @@ app.use(
 	}),
 );
 
+app.use("/api/auth/error", (_req, res) => {
+	res.status(500).json({ error: "Authentication error" });
+});
+
 // routes
 app.all("/api/auth/{*any}", toNodeHandler(auth));
 app.use("/api/business", businessRouter);
