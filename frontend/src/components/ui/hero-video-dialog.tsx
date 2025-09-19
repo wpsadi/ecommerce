@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 type AnimationStyle =
   | "from-bottom"
