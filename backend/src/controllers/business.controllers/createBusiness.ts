@@ -16,7 +16,7 @@ export const createBusinessController = async (
 		if (!req.user)
 			throw createHttpError.Unauthorized("Please login to continue");
 		// Check user is owner in organization
-		const isOwner = await checkUserRole(req.user.id, organizationId, "OWNER");
+		const isOwner = await checkUserRole(req.user.id, organizationId, "owner");
 		if (!isOwner)
 			throw createHttpError.Forbidden(
 				"You must be an owner in this organization",

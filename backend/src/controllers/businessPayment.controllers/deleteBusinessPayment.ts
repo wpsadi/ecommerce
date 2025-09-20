@@ -17,7 +17,7 @@ export const deleteBusinessPaymentController = async (
 		const isOwner = await checkUserRole(
 			req.user.id,
 			businessId,
-			"OWNER",
+			"owner",
 			"business",
 		);
 		if (!isOwner)

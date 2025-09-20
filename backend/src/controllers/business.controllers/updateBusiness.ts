@@ -18,7 +18,7 @@ export const updateBusinessController = async (
 		const isOwner = await checkUserRole(
 			req.user.id,
 			req.body.organizationId,
-			"OWNER",
+			"owner",
 		);
 		if (!isOwner)
 			throw createHttpError.Forbidden(

@@ -17,7 +17,7 @@ export const updateBusinessPaymentController = async (
 		const isOwner = await checkUserRole(
 			req.user.id,
 			validation.businessId,
-			"OWNER",
+			"owner",
 			"business",
 		);
 		if (!isOwner)

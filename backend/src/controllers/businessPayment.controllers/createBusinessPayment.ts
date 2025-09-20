@@ -14,13 +14,13 @@ export const createBusinessPaymentController = async (
 		if (!req.user)
 			throw createHttpError.Unauthorized("Please login to continue");
 		// Only owner of business can create payment info
-		const isOwner = await checkUserRole(
+		const isowner = await checkUserRole(
 			req.user.id,
 			validation.businessId,
-			"OWNER",
+			"owner",
 			"business",
 		);
-		if (!isOwner)
+		if (!isowner)
 			throw createHttpError.Forbidden("You must be an owner of this business");
 		const payment = await createBusinessPaymentService(validation);
 		res.status(201).json(payment);

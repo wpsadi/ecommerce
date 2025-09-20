@@ -8,29 +8,28 @@ export const authMiddleware = async (
 	next: NextFunction,
 ) => {
 	try {
-		const session = await auth.api.getSession( {
-			headers: fromNodeHeaders( req.headers ),
-		} );
-		if ( !session ) {
-			throw createError.Unauthorized( "Unauthorized" );
+		const session = await auth.api.getSession({
+			headers: fromNodeHeaders(req.headers),
+		});
+		if (!session) {
+			throw createError.Unauthorized("Unauthorized");
 		}
 
-		if ( !session.user || !session.session ) {
-			throw createError.Unauthorized( "Unauthorized" );
+		if (!session.user || !session.session) {
+			throw createError.Unauthorized("Unauthorized");
 		}
 
 		// ensure email is verified
-		if ( !session.user.emailVerified ) {
-			throw createError.Unauthorized( "Email not verified" );
+		if (!session.user.emailVerified) {
+			throw createError.Unauthorized("Email not verified");
 		}
-
 
 		// assign and assert non-nullable for TypeScript consumers
 		req.session = session.session;
 		req.user = session.user as NonNullable<typeof session.user>;
 
 		next();
-	} catch ( err ) {
-		next( err );
+	} catch (err) {
+		next(err);
 	}
 };
