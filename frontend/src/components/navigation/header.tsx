@@ -232,11 +232,11 @@ export function Header() {
               {data?.user ? (
                 <>
                   <Link
-                    href="/organizations"
+                    href="/organization"
                     className="block py-2 text-muted-foreground hover:text-foreground font-medium"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    Organizations
+                    Organization
                   </Link>
                   <Link
                     href="/cart"
