@@ -1,8 +1,6 @@
 "use client";
 
 import { Grid, List } from "lucide-react";
-import { Footer } from "@/components/navigation/footer";
-import { Header } from "@/components/navigation/header";
 import { Button } from "@/components/ui/button";
 import DisplayProducts from "./_components/DisplayProducts";
 import { useProductStore } from "./_store/products.store";
@@ -10,27 +8,8 @@ import { useProductStore } from "./_store/products.store";
 export default function ProductsPage() {
   const { viewMode, setViewMode } = useProductStore();
 
-  //   const categories = ["all", ...Array.from(new Set(dummyProducts.map((p) => p.category)))]
-
-  //   const filteredProducts = dummyProducts
-  //     .filter((product) => filterCategory === "all" || product.category === filterCategory)
-  //     .sort((a, b) => {
-  //       switch (sortBy) {
-  //         case "price-low":
-  //           return a.price - b.price
-  //         case "price-high":
-  //           return b.price - a.price
-  //         case "name":
-  //           return a.name.localeCompare(b.name)
-  //         default:
-  //           return 0
-  //       }
-  //     })
-
   return (
-    <div className="min-h-screen bg-canvas">
-      <Header />
-
+    <div className="bg-canvas">
       <div className="container mx-auto px-4 py-6">
         {/* Page Header */}
         <div className="mb-8">
@@ -71,8 +50,6 @@ export default function ProductsPage() {
         {/* Products Grid */}
         <DisplayProducts />
       </div>
-
-      <Footer />
     </div>
   );
 }
