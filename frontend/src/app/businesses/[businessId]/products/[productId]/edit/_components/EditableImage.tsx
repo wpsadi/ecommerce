@@ -27,7 +27,7 @@ export function EditableImage({
       onClick={() => fileInputRef.current?.click()}
     >
       {src ? (
-        <NextImage src={src} alt={alt || "Product image"} fill />
+        <NextImage src={src} alt={alt || "Product preview image"} fill />
       ) : (
         <div className="w-full h-full flex items-center justify-center bg-muted text-muted-foreground">
           {placeholder}
