@@ -1,7 +1,7 @@
+import { motion } from "motion/react";
 import Link from "next/link";
 import { useProductsFew } from "../_hooks/products-few";
 import ProductCard from "./ProductCard";
-import { motion } from "motion/react";
 
 function FeaturedProducts() {
   const { data, isError, isPending } = useProductsFew();
@@ -22,10 +22,12 @@ function FeaturedProducts() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
           {data?.products.length === 0 && !isPending && !isError && (
             <div className="text-center py-12 col-span-full">
-              <p className="text-mute text-lg">No featured products available.</p>
+              <p className="text-mute text-lg">
+                No featured products available.
+              </p>
             </div>
           )}
-          {data?.products.map((product, index) => (
+          {data?.products.map((product, _index) => (
             <ProductCard key={product.id} product={product} />
           ))}
 
@@ -37,7 +39,9 @@ function FeaturedProducts() {
 
           {isError && (
             <div className="text-center py-12">
-              <p className="text-sale text-lg">Error loading featured products.</p>
+              <p className="text-sale text-lg">
+                Error loading featured products.
+              </p>
             </div>
           )}
         </div>
@@ -49,7 +53,10 @@ function FeaturedProducts() {
           className="mt-12"
         >
           <Link href="/products">
-            <button className="bg-soft-cloud text-ink font-[Helvetica_Now_Text_Medium,Helvetica,sans-serif] rounded-full px-8 h-[48px] uppercase tracking-[0.05em] hover:bg-hairline transition-colors">
+            <button
+              type="button"
+              className="bg-soft-cloud text-ink font-[Helvetica_Now_Text_Medium,Helvetica,sans-serif] rounded-full px-8 h-[48px] uppercase tracking-[0.05em] hover:bg-hairline transition-colors"
+            >
               View All Products
             </button>
           </Link>

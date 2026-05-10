@@ -1,7 +1,6 @@
 "use client";
 
 import { Grid, List } from "lucide-react";
-import { useState } from "react";
 import { Footer } from "@/components/navigation/footer";
 import { Header } from "@/components/navigation/header";
 import { Button } from "@/components/ui/button";
@@ -9,7 +8,7 @@ import DisplayProducts from "./_components/DisplayProducts";
 import { useProductStore } from "./_store/products.store";
 
 export default function ProductsPage() {
-  const {viewMode,setViewMode} = useProductStore()
+  const { viewMode, setViewMode } = useProductStore();
 
   //   const categories = ["all", ...Array.from(new Set(dummyProducts.map((p) => p.category)))]
 

@@ -4,7 +4,6 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Footer } from "@/components/navigation/footer";
 import { Header } from "@/components/navigation/header";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import SearchProductList from "./_components/SearchProductList";
 

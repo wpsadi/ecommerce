@@ -13,7 +13,9 @@ function CartSummary() {
     return (
       <Card className="border-0 bg-canvas sticky top-6">
         <CardHeader className="p-0 pb-4">
-          <CardTitle className="text-[16px] text-ink px-4 pt-4">Order Summary</CardTitle>
+          <CardTitle className="text-[16px] text-ink px-4 pt-4">
+            Order Summary
+          </CardTitle>
         </CardHeader>
         <CardContent className="px-4 pb-4 space-y-3">
           <div className="space-y-2">
@@ -51,12 +53,16 @@ function CartSummary() {
     return (
       <Card className="border-0 bg-canvas sticky top-6 opacity-80 pointer-events-none">
         <CardHeader className="p-0 pb-4">
-          <CardTitle className="text-[16px] text-ink px-4 pt-4">Order Summary</CardTitle>
+          <CardTitle className="text-[16px] text-ink px-4 pt-4">
+            Order Summary
+          </CardTitle>
         </CardHeader>
         <CardContent className="px-4 pb-4 flex flex-col items-center gap-3 p-8">
           <AlertTriangle className="h-8 w-8 text-destructive" />
           <div className="text-destructive text-center font-medium text-[14px]">
-            {error instanceof Error ? error.message : "Failed to load cart summary."}
+            {error instanceof Error
+              ? error.message
+              : "Failed to load cart summary."}
           </div>
         </CardContent>
       </Card>
@@ -66,14 +72,20 @@ function CartSummary() {
   return (
     <Card className="border-0 bg-canvas sticky top-6">
       <CardHeader className="p-0 pb-4">
-        <CardTitle className="text-[16px] text-ink px-4 pt-4">Order Summary</CardTitle>
+        <CardTitle className="text-[16px] text-ink px-4 pt-4">
+          Order Summary
+        </CardTitle>
       </CardHeader>
       <CardContent className="px-4 pb-4 space-y-3">
         <div className="space-y-2">
           {data?.items.map((item) => (
             <div key={item.productId} className="flex justify-between text-sm">
-              <span className="text-mute">{item.name} × {item.quantity}</span>
-              <span className="text-ink font-medium">{formatINR(item.totalPrice)}</span>
+              <span className="text-mute">
+                {item.name} × {item.quantity}
+              </span>
+              <span className="text-ink font-medium">
+                {formatINR(item.totalPrice)}
+              </span>
             </div>
           ))}
         </div>
@@ -81,7 +93,9 @@ function CartSummary() {
         <div className="border-t border-hairline pt-3 space-y-2">
           <div className="flex justify-between text-sm">
             <span className="text-mute">Subtotal</span>
-            <span className="text-ink font-medium">{formatINR(data?.total || 0)}</span>
+            <span className="text-ink font-medium">
+              {formatINR(data?.total || 0)}
+            </span>
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-mute">Shipping</span>
@@ -105,7 +119,10 @@ function CartSummary() {
         </Link>
 
         <Link href="/products">
-          <Button variant="secondary" className="w-full h-[48px] rounded-[30px] px-8 text-[16px]">
+          <Button
+            variant="secondary"
+            className="w-full h-[48px] rounded-[30px] px-8 text-[16px]"
+          >
             Continue Shopping
           </Button>
         </Link>

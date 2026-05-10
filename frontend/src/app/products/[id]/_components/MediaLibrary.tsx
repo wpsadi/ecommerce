@@ -8,7 +8,6 @@ interface MediaLibraryProps {
   selectedImage: number;
   productName: string;
   onImageSelect: (index: number) => void;
-  onVideoToggle: (playing: boolean) => void;
 }
 
 export function MediaLibrary({
@@ -18,7 +17,6 @@ export function MediaLibrary({
   selectedImage,
   productName,
   onImageSelect,
-  onVideoToggle,
 }: MediaLibraryProps) {
   const getMainImagePreview = () => {
     if (mainImageUrl) return mainImageUrl;

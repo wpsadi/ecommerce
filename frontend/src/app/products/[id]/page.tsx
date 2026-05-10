@@ -22,7 +22,7 @@ export default function ProductDetailPage() {
 
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
-  const [_isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [_isVideoPlaying, _setIsVideoPlaying] = useState(false);
 
   if (isPending) {
     return (
@@ -117,7 +117,6 @@ export default function ProductDetailPage() {
                   selectedImage={selectedImage}
                   productName={data.name}
                   onImageSelect={setSelectedImage}
-                  onVideoToggle={setIsVideoPlaying}
                 />
               </CardContent>
             </Card>

@@ -20,7 +20,9 @@ export function CheckoutSummary({
 
   if (isPending) {
     return (
-      <div className="flex justify-center items-center min-h-[200px]">Loading...</div>
+      <div className="flex justify-center items-center min-h-[200px]">
+        Loading...
+      </div>
     );
   }
   if (isError || !data) {
@@ -41,7 +43,9 @@ export function CheckoutSummary({
               </CardTitle>
             </CardHeader>
             <CardContent className="px-4 pb-4 space-y-4 text-center">
-              <p className="text-mute text-[14px]">Add items to your cart to proceed to checkout.</p>
+              <p className="text-mute text-[14px]">
+                Add items to your cart to proceed to checkout.
+              </p>
               <Link href="/products">
                 <Button className="w-full h-[48px] bg-ink text-canvas rounded-[30px] px-8 text-[16px]">
                   Shop Now
@@ -59,21 +63,32 @@ export function CheckoutSummary({
       <div className="max-w-lg mx-auto">
         <Card className="border-0 bg-canvas">
           <CardHeader className="p-0 pb-4">
-            <CardTitle className="text-[16px] text-ink px-4 pt-4">Order Summary</CardTitle>
+            <CardTitle className="text-[16px] text-ink px-4 pt-4">
+              Order Summary
+            </CardTitle>
           </CardHeader>
           <CardContent className="px-4 pb-4 space-y-3">
             <div className="space-y-2">
               {data.items.map((item) => (
-                <div key={item.productId} className="flex justify-between text-sm">
-                  <span className="text-mute">{item.name} × {item.quantity}</span>
-                  <span className="text-ink font-medium">{formatINR(item.totalPrice)}</span>
+                <div
+                  key={item.productId}
+                  className="flex justify-between text-sm"
+                >
+                  <span className="text-mute">
+                    {item.name} × {item.quantity}
+                  </span>
+                  <span className="text-ink font-medium">
+                    {formatINR(item.totalPrice)}
+                  </span>
                 </div>
               ))}
             </div>
             <div className="border-t border-hairline pt-3 space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-mute">Subtotal</span>
-                <span className="text-ink font-medium">{formatINR(data.total)}</span>
+                <span className="text-ink font-medium">
+                  {formatINR(data.total)}
+                </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-mute">Shipping</span>

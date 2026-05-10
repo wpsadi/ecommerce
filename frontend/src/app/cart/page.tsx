@@ -1,10 +1,10 @@
+import Link from "next/link";
 import { Footer } from "@/components/navigation/footer";
 import { Header } from "@/components/navigation/header";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/store/cart.store";
 import CartProduct from "./_components/CartProduct";
 import CartSummary from "./_components/CartSummary";
-import Link from "next/link";
 
 export default function CartPage() {
   const { items } = useCartStore();

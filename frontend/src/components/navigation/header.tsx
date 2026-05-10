@@ -33,12 +33,26 @@ export function Header() {
     <>
       <header className="sticky top-0 z-50 w-full border-b border-hairline bg-canvas">
         {/* Utility Bar */}
-        <div className="h-[36px] flex items-center justify-end px-4" style={{ fontSize: "9px" }}>
-          <nav className="flex items-center gap-4 text-ink" style={{ fontFamily: "Helvetica Neue, Helvetica, sans-serif" }}>
-            <Link href="/store" className="hover:underline cursor-pointer">Find a Store</Link>
-            <Link href="/help" className="hover:underline cursor-pointer">Help</Link>
-            <Link href="/join" className="hover:underline cursor-pointer">Join Us</Link>
-            <Link href="/signin" className="hover:underline cursor-pointer">Sign In</Link>
+        <div
+          className="h-[36px] flex items-center justify-end px-4"
+          style={{ fontSize: "9px" }}
+        >
+          <nav
+            className="flex items-center gap-4 text-ink"
+            style={{ fontFamily: "Helvetica Neue, Helvetica, sans-serif" }}
+          >
+            <Link href="/store" className="hover:underline cursor-pointer">
+              Find a Store
+            </Link>
+            <Link href="/help" className="hover:underline cursor-pointer">
+              Help
+            </Link>
+            <Link href="/join" className="hover:underline cursor-pointer">
+              Join Us
+            </Link>
+            <Link href="/signin" className="hover:underline cursor-pointer">
+              Sign In
+            </Link>
           </nav>
         </div>
 
@@ -52,16 +66,28 @@ export function Header() {
             </Link>
 
             <nav className="hidden md:flex items-center gap-8">
-              <Link href="/products" className="nav-link text-ink text-body-strong relative">
+              <Link
+                href="/products"
+                className="nav-link text-ink text-body-strong relative"
+              >
                 New & Featured
               </Link>
-              <Link href="/men" className="nav-link text-ink text-body-strong relative">
+              <Link
+                href="/men"
+                className="nav-link text-ink text-body-strong relative"
+              >
                 Men
               </Link>
-              <Link href="/women" className="nav-link text-ink text-body-strong relative">
+              <Link
+                href="/women"
+                className="nav-link text-ink text-body-strong relative"
+              >
                 Women
               </Link>
-              <Link href="/kids" className="nav-link text-ink text-body-strong relative">
+              <Link
+                href="/kids"
+                className="nav-link text-ink text-body-strong relative"
+              >
                 Kids
               </Link>
             </nav>
@@ -79,7 +105,9 @@ export function Header() {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="bg-transparent outline-none text-ink placeholder:text-mute w-[180px]"
-                    style={{ fontFamily: "Helvetica Now Text, Helvetica, sans-serif" }}
+                    style={{
+                      fontFamily: "Helvetica Now Text, Helvetica, sans-serif",
+                    }}
                   />
                 </div>
               </form>
@@ -99,6 +127,7 @@ export function Header() {
 
             {/* Hamburger */}
             <button
+              type="button"
               className="md:hidden p-2"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
@@ -117,24 +146,73 @@ export function Header() {
         <div className="fixed inset-0 z-40 bg-canvas left-0 top-0 w-[280px] border-r border-hairline">
           <div className="p-6 pt-16">
             <nav className="flex flex-col gap-6">
-              <Link href="/products" className="text-ink text-body-strong" onClick={() => setIsMenuOpen(false)}>Products</Link>
-              <Link href="/men" className="text-ink text-body-strong" onClick={() => setIsMenuOpen(false)}>Men</Link>
-              <Link href="/women" className="text-ink text-body-strong" onClick={() => setIsMenuOpen(false)}>Women</Link>
-              <Link href="/kids" className="text-ink text-body-strong" onClick={() => setIsMenuOpen(false)}>Kids</Link>
+              <Link
+                href="/products"
+                className="text-ink text-body-strong"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Products
+              </Link>
+              <Link
+                href="/men"
+                className="text-ink text-body-strong"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Men
+              </Link>
+              <Link
+                href="/women"
+                className="text-ink text-body-strong"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Women
+              </Link>
+              <Link
+                href="/kids"
+                className="text-ink text-body-strong"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Kids
+              </Link>
               {!data?.user && (
                 <div className="flex flex-col gap-3 pt-4 border-t border-hairline">
                   <Link href="/auth" onClick={() => setIsMenuOpen(false)}>
-                    <button className="w-full text-ink text-body-strong py-2 text-left">Login</button>
+                    <button
+                      type="button"
+                      className="w-full text-ink text-body-strong py-2 text-left"
+                    >
+                      Login
+                    </button>
                   </Link>
                   <Link href="/auth" onClick={() => setIsMenuOpen(false)}>
-                    <button className="w-full bg-ink text-canvas text-body-strong rounded-full px-6 py-2 uppercase">Sign Up</button>
+                    <button
+                      type="button"
+                      className="w-full bg-ink text-canvas text-body-strong rounded-full px-6 py-2 uppercase"
+                    >
+                      Sign Up
+                    </button>
                   </Link>
                 </div>
               )}
               {data?.user && (
                 <div className="flex flex-col gap-3 pt-4 border-t border-hairline">
-                  <Link href="/orders" className="text-ink text-body-strong" onClick={() => setIsMenuOpen(false)}>Orders</Link>
-                  <button onClick={() => { handleLogout(); setIsMenuOpen(false); }} className="text-ink text-body-strong text-left">Logout</button>
+                  <Link
+                    href="/orders"
+                    className="text-ink text-body-strong"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Orders
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleLogout();
+                      setIsMenuOpen(false);
+                    }}
+                    className="text-ink text-body-strong text-left"
+                  >
+                    Logout
+                  </button>
                 </div>
               )}
             </nav>

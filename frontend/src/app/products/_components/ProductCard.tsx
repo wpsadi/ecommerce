@@ -1,14 +1,14 @@
+import { motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { useCartStore } from "@/store/cart.store";
-import { useProductStore } from "../_store/products.store";
 import type { Product } from "../_hooks/products-load.paginated";
-import { motion } from "motion/react";
+import { useProductStore } from "../_store/products.store";
 
 function ProductCard({ product }: { product: Product }) {
   const { viewMode } = useProductStore();
-  const { addItem } = useCartStore();
+  const _addItem = useCartStore();
 
   if (viewMode === "list") {
     return (
@@ -34,7 +34,10 @@ function ProductCard({ product }: { product: Product }) {
             <div className="w-2 h-2 rounded-full border border-hairline"></div>
           </div>
           <div>
-            <Link href={`/products/${product.id}`} className="text-ink font-[Helvetica_Now_Text_Medium,Helvetica,sans-serif] text-[16px] leading-tight line-clamp-1">
+            <Link
+              href={`/products/${product.id}`}
+              className="text-ink font-[Helvetica_Now_Text_Medium,Helvetica,sans-serif] text-[16px] leading-tight line-clamp-1"
+            >
               {product.name}
             </Link>
             <p className="text-mute text-[14px] font-[Helvetica_Now_Text,Helvetica,sans-serif] mt-1">

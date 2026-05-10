@@ -51,7 +51,7 @@ export function MediaGallery({
 
   const getSideImagePreview = (index: number) => {
     if (sideImageFiles[index])
-      return URL.createObjectURL(sideImageFiles[index]!);
+      return URL.createObjectURL(sideImageFiles[index]);
     if (sideImageUrls[index]) return `${sideImageUrls[index]}`;
     return "/placeholder.svg";
   };

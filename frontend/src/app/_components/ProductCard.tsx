@@ -1,12 +1,12 @@
-import { ShoppingCart } from "lucide-react";
+import { motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCartStore } from "@/store/cart.store";
 import type { Product } from "../products/_hooks/products-load.paginated";
-import { motion } from "motion/react";
 
 function ProductCard({ product }: { product: Product }) {
-  const { addItem } = useCartStore();
+  // addItem is available from useCartStore if needed
+  void useCartStore();
 
   return (
     <motion.div

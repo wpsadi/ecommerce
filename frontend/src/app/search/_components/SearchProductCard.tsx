@@ -1,6 +1,6 @@
+import { motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "motion/react";
 
 interface SearchProduct {
   id: string;
@@ -9,7 +9,11 @@ interface SearchProduct {
   price: number;
 }
 
-export default function SearchProductCard({ product }: { product: SearchProduct }) {
+export default function SearchProductCard({
+  product,
+}: {
+  product: SearchProduct;
+}) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}

@@ -1,7 +1,6 @@
-import { ArrowRight } from "lucide-react";
+import { motion } from "motion/react";
 import Link from "next/link";
 import { useSearchStore } from "../products/_store/search-store";
-import { motion } from "motion/react";
 
 function HeroSection() {
   const { searchTerm, setSearchTerm } = useSearchStore();
@@ -35,7 +34,16 @@ function HeroSection() {
             transition={{ duration: 0.2, delay: 0.1 }}
             className="bg-soft-cloud rounded-md h-[40px] px-4 flex items-center w-full max-w-md mt-8"
           >
-            <svg className="h-4 w-4 text-charcoal mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg
+              className="h-4 w-4 text-charcoal mr-2"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              role="img"
+              aria-label="Search"
+            >
+              <title>Search</title>
               <circle cx="11" cy="11" r="8" />
               <path d="m21 21-4.3-4.3" />
             </svg>
@@ -55,7 +63,10 @@ function HeroSection() {
             className="mt-8"
           >
             <Link href="/products">
-              <button className="bg-ink text-canvas text-body-strong rounded-full px-8 h-[48px] uppercase tracking-[0.05em] hover:bg-charcoal transition-colors">
+              <button
+                type="button"
+                className="bg-ink text-canvas text-body-strong rounded-full px-8 h-[48px] uppercase tracking-[0.05em] hover:bg-charcoal transition-colors"
+              >
                 Shop Now
               </button>
             </Link>

@@ -26,7 +26,8 @@ export function EditableField({
   const commonProps = {
     value,
     placeholder,
-    onChange: (e: any) => onChange(e.target.value),
+    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+      onChange(e.target.value),
     className: `bg-transparent border-none outline-none w-full p-0 m-0 ${className}`,
     onBlur: handleBlur,
     autoFocus: editing,
@@ -44,9 +45,9 @@ export function EditableField({
     >
       {editing ? (
         as === "textarea" ? (
-          <textarea ref={ref as any} {...commonProps} rows={2} />
+          <textarea ref={ref} {...commonProps} rows={2} />
         ) : (
-          <input ref={ref as any} {...commonProps} />
+          <input ref={ref} {...commonProps} />
         )
       ) : (
         <span className={value ? "" : "text-muted-foreground italic"}>

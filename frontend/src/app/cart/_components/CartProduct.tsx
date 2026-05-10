@@ -7,8 +7,15 @@ import { useCartStore } from "@/store/cart.store";
 import { formatINR } from "@/utils/currency";
 import { useProduct } from "../_hooks/loadProduct";
 
-function CartProduct({ productId, quantity }: { productId: string; quantity: number }) {
-  const { decreaseItemQuantity, increaseItemQuantity, removeItem } = useCartStore();
+function CartProduct({
+  productId,
+  quantity,
+}: {
+  productId: string;
+  quantity: number;
+}) {
+  const { decreaseItemQuantity, increaseItemQuantity, removeItem } =
+    useCartStore();
   const { data, isError, error, isPending } = useProduct(productId);
 
   if (isPending) {
@@ -17,7 +24,9 @@ function CartProduct({ productId, quantity }: { productId: string; quantity: num
         <CardContent className="p-0 flex items-center justify-center min-h-[120px]">
           <div className="flex flex-col items-center gap-2 w-full">
             <div className="animate-spin rounded-full h-8 w-8 border-4 border-mute border-t-ink" />
-            <span className="text-mute text-[14px] mt-2">Loading product...</span>
+            <span className="text-mute text-[14px] mt-2">
+              Loading product...
+            </span>
           </div>
         </CardContent>
       </Card>
@@ -29,8 +38,12 @@ function CartProduct({ productId, quantity }: { productId: string; quantity: num
       <Card className="border-0 bg-canvas">
         <CardContent className="p-0 flex items-center justify-center min-h-[120px]">
           <div className="flex flex-col items-center gap-2 w-full">
-            <span className="text-destructive text-[16px] font-medium">Error loading product</span>
-            <span className="text-mute text-[14px]">{error?.message || "Product not found."}</span>
+            <span className="text-destructive text-[16px] font-medium">
+              Error loading product
+            </span>
+            <span className="text-mute text-[14px]">
+              {error?.message || "Product not found."}
+            </span>
           </div>
         </CardContent>
       </Card>
@@ -59,7 +72,9 @@ function CartProduct({ productId, quantity }: { productId: string; quantity: num
                     {data.name}
                   </h3>
                 </Link>
-                <p className="text-[14px] text-mute mt-1 line-clamp-1">{data.description}</p>
+                <p className="text-[14px] text-mute mt-1 line-clamp-1">
+                  {data.description}
+                </p>
               </div>
               <Button
                 variant="icon"
@@ -87,7 +102,9 @@ function CartProduct({ productId, quantity }: { productId: string; quantity: num
                 >
                   <Minus className="h-4 w-4" />
                 </Button>
-                <span className="w-8 text-center text-[14px] font-medium">{quantity}</span>
+                <span className="w-8 text-center text-[14px] font-medium">
+                  {quantity}
+                </span>
                 <Button
                   variant="icon"
                   className="bg-soft-cloud text-ink h-[40px] w-[40px] rounded-full"

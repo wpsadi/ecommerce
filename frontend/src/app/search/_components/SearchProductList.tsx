@@ -1,19 +1,9 @@
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { motion } from "motion/react";
 import { useSearchProducts } from "../_hooks/useSearchProducts";
 import SearchProductCard from "./SearchProductCard";
-import { motion } from "motion/react";
 
 export default function SearchProductList({ query }: { query: string }) {
-  const {
-    data,
-    isLoading,
-    isError,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useSearchProducts(query);
+  const { data, isLoading, isError, error } = useSearchProducts(query);
 
   const products = data?.pages.flatMap((page) => page.products) || [];
 
@@ -38,8 +28,12 @@ export default function SearchProductList({ query }: { query: string }) {
   if (products.length === 0) {
     return (
       <div className="text-center py-16">
-        <h3 className="text-[16px] font-medium text-ink mb-2">No products found</h3>
-        <p className="text-mute text-[14px]">Try adjusting your search terms or browse our categories</p>
+        <h3 className="text-[16px] font-medium text-ink mb-2">
+          No products found
+        </h3>
+        <p className="text-mute text-[14px]">
+          Try adjusting your search terms or browse our categories
+        </p>
       </div>
     );
   }
@@ -55,11 +49,10 @@ export default function SearchProductList({ query }: { query: string }) {
         <SearchProductCard
           key={product.id}
           product={{
-            ...product,
+            id: product.id,
+            name: product.name,
             mainImage: product.mainImage || "",
-            video: product.video || "",
-            createdAt: "",
-            updatedAt: "",
+            price: product.price,
           }}
         />
       ))}
