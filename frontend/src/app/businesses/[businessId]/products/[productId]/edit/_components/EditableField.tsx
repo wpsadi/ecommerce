@@ -18,7 +18,8 @@ export function EditableField({
   strike = false,
 }: EditableFieldProps) {
   const [editing, setEditing] = useState(false);
-  const ref = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const _handleFocus = () => setEditing(true);
   const handleBlur = () => setEditing(false);
@@ -39,15 +40,22 @@ export function EditableField({
       className={`relative group ${strike ? "line-through text-muted-foreground" : ""}`}
       onClick={() => {
         setEditing(true);
-        setTimeout(() => ref.current?.focus(), 0);
+        setTimeout(
+          () =>
+            (as === "textarea"
+              ? textareaRef.current
+              : inputRef.current
+            )?.focus(),
+          0,
+        );
       }}
       style={{ cursor: "text" }}
     >
       {editing ? (
         as === "textarea" ? (
-          <textarea ref={ref} {...commonProps} rows={2} />
+          <textarea ref={textareaRef} {...commonProps} rows={2} />
         ) : (
-          <input ref={ref} {...commonProps} />
+          <input ref={inputRef} {...commonProps} />
         )
       ) : (
         <span className={value ? "" : "text-muted-foreground italic"}>
