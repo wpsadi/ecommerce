@@ -18,8 +18,8 @@ export function EditableField({
   strike = false,
 }: EditableFieldProps) {
   const [editing, setEditing] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const inputElementRef = useRef<HTMLInputElement>(null);
+  const textareaElementRef = useRef<HTMLTextAreaElement>(null);
 
   const _handleFocus = () => setEditing(true);
   const handleBlur = () => setEditing(false);
@@ -43,8 +43,8 @@ export function EditableField({
         setTimeout(
           () =>
             (as === "textarea"
-              ? textareaRef.current
-              : inputRef.current
+              ? textareaElementRef.current
+              : inputElementRef.current
             )?.focus(),
           0,
         );
@@ -53,9 +53,9 @@ export function EditableField({
     >
       {editing ? (
         as === "textarea" ? (
-          <textarea ref={textareaRef} {...commonProps} rows={2} />
+          <textarea ref={textareaElementRef} {...commonProps} rows={2} />
         ) : (
-          <input ref={inputRef} {...commonProps} />
+          <input ref={inputElementRef} {...commonProps} />
         )
       ) : (
         <span className={value ? "" : "text-muted-foreground italic"}>
