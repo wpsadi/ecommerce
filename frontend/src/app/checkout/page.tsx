@@ -1,3 +1,4 @@
+"use client";
 import { Footer } from "@/components/navigation/footer";
 import { Header } from "@/components/navigation/header";
 import { useState } from "react";

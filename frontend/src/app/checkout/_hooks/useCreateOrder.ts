@@ -1,3 +1,4 @@
+"use client";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { type RazorpayOrderOptions, useRazorpay } from "react-razorpay";

@@ -5,7 +5,7 @@ import type * as React from "react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap font-[Helvetica_Now_Text_Medium,Helvetica,sans-serif] transition-all duration-150 ease-out uppercase disabled:pointer-events-none disabled:opacity-50 shrink-0 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap font-[Helvetica_Now_Text_Medium,Helvetica,sans-serif] transition-all duration-150 ease-out uppercase disabled:pointer-events-none disabled:opacity-50 shrink-0 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
   {
     variants: {
       variant: {
@@ -13,13 +13,19 @@ const buttonVariants = cva(
           "bg-[#111111] text-white rounded-[30px] px-8 py-0 h-[48px] text-[16px] tracking-[0.05em]",
         secondary:
           "bg-[#f5f5f5] text-[#111111] rounded-[30px] px-8 py-0 h-[48px] text-[16px] tracking-[0.05em]",
+        destructive:
+          "bg-[#d30005] text-white rounded-[30px] px-8 py-0 h-[48px] text-[16px] tracking-[0.05em] hover:bg-[#780000]",
         outline:
           "bg-white/90 text-[#111111] rounded-[30px] px-6 py-0 h-[48px] text-[16px] tracking-[0.05em]",
+        ghost:
+          "bg-transparent text-[#111111] rounded-[30px] px-4 py-0 h-[48px] text-[16px] tracking-[0.05em] hover:bg-[#f5f5f5]",
+        link: "text-[#111111] underline-offset-4 hover:underline",
         icon:
           "bg-transparent rounded-full size-[40px]",
       },
       size: {
         default: "h-[48px] px-8",
+        sm: "h-[36px] px-4 text-[14px]",
         lg: "h-[48px] px-8",
         icon: "size-[40px]",
       },

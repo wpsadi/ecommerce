@@ -1,3 +1,4 @@
+"use client";
 import { Search } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
