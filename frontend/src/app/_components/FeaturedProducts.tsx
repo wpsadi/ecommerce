@@ -1,64 +1,59 @@
-import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { useProductsFew } from "../_hooks/products-few";
 import ProductCard from "./ProductCard";
+import { motion } from "motion/react";
 
 function FeaturedProducts() {
   const { data, isError, isPending } = useProductsFew();
+
   return (
-    <section className="py-20 bg-muted">
+    <section className="py-12 bg-soft-cloud">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-foreground mb-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <h2 className="text-[32px] font-[Helvetica_Now_Display_Medium,Helvetica,sans-serif] text-ink uppercase tracking-normal">
             Featured Products
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Handpicked items that showcase the finest craftsmanship and design
-          </p>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
           {data?.products.length === 0 && !isPending && !isError && (
             <div className="text-center py-12 col-span-full">
-              <p className="text-muted-foreground text-lg">
-                No featured products available.
-              </p>
+              <p className="text-mute text-lg">No featured products available.</p>
             </div>
           )}
-          {data?.products.map((product) => (
+          {data?.products.map((product, index) => (
             <ProductCard key={product.id} product={product} />
           ))}
 
           {isPending && (
             <div className="text-center py-12">
-              <p className="text-muted-foreground text-lg">
-                Loading Products...
-              </p>
+              <p className="text-mute text-lg">Loading Products...</p>
             </div>
           )}
 
           {isError && (
             <div className="text-center py-12">
-              <p className="text-destructive text-lg">
-                Error loading featured products.
-              </p>
+              <p className="text-sale text-lg">Error loading featured products.</p>
             </div>
           )}
         </div>
 
-        <div className="text-center mt-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2, delay: 0.1 }}
+          className="mt-12"
+        >
           <Link href="/products">
-            <Button
-              variant="outline"
-              size="lg"
-              className="border-border hover:bg-muted bg-transparent"
-            >
+            <button className="bg-soft-cloud text-ink font-[Helvetica_Now_Text_Medium,Helvetica,sans-serif] rounded-full px-8 h-[48px] uppercase tracking-[0.05em] hover:bg-hairline transition-colors">
               View All Products
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            </button>
           </Link>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

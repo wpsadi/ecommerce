@@ -2,150 +2,81 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="bg-background text-foreground">
+    <footer className="bg-canvas text-ink border-t border-hairline">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Brand */}
-          <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-card rounded-lg flex items-center justify-center">
-                <div className="w-4 h-4 bg-foreground rounded-sm"></div>
-              </div>
-              <span className="font-bold text-xl">Ecomm</span>
-            </div>
-            <p className="text-muted-foreground text-sm leading-relaxed">
-              Beautiful ecommerce platform for artisans and creators to showcase
-              their craft.
-            </p>
-          </div>
-
-          {/* Platform */}
-          <div>
-            <h3 className="font-semibold mb-4">Platform</h3>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-0">
+          {/* Resources */}
+          <div className="py-6">
+            <h3 className="text-[16px] text-ink mb-4">Resources</h3>
+            <ul className="space-y-2">
               <li>
-                <Link
-                  href="/products"
-                  className="hover:text-foreground transition-colors"
-                >
-                  Products
-                </Link>
+                <Link href="/products" className="text-[14px] text-mute hover:text-ink">Products</Link>
               </li>
               <li>
-                <Link
-                  href="/organization"
-                  className="hover:text-foreground transition-colors"
-                >
-                  Organization
-                </Link>
+                <Link href="/organization" className="text-[14px] text-mute hover:text-ink">Organization</Link>
               </li>
               <li>
-                <Link
-                  href="/search"
-                  className="hover:text-foreground transition-colors"
-                >
-                  Search
-                </Link>
+                <Link href="/search" className="text-[14px] text-mute hover:text-ink">Search</Link>
               </li>
             </ul>
           </div>
 
-          {/* Account */}
-          <div>
-            <h3 className="font-semibold mb-4">Account</h3>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+          {/* Help */}
+          <div className="py-6 border-l border-hairline">
+            <h3 className="text-[16px] text-ink mb-4">Help</h3>
+            <ul className="space-y-2">
               <li>
-                <Link
-                  href="/auth"
-                  className="hover:text-foreground transition-colors"
-                >
-                  Login
-                </Link>
+                <Link href="/help" className="text-[14px] text-mute hover:text-ink">Help Center</Link>
               </li>
               <li>
-                <Link
-                  href="/auth"
-                  className="hover:text-foreground transition-colors"
-                >
-                  Sign up
-                </Link>
+                <Link href="/contact" className="text-[14px] text-mute hover:text-ink">Contact</Link>
               </li>
               <li>
-                <Link
-                  href="/orders"
-                  className="hover:text-foreground transition-colors"
-                >
-                  Orders
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/cart"
-                  className="hover:text-foreground transition-colors"
-                >
-                  Cart
-                </Link>
+                <Link href="/faq" className="text-[14px] text-mute hover:text-ink">FAQ</Link>
               </li>
             </ul>
           </div>
 
-          {/* Support */}
-          <div>
-            <h3 className="font-semibold mb-4">Support</h3>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+          {/* Company */}
+          <div className="py-6 border-l border-hairline">
+            <h3 className="text-[16px] text-ink mb-4">Company</h3>
+            <ul className="space-y-2">
               <li>
-                <Link
-                  href="#"
-                  className="hover:text-foreground transition-colors"
-                >
-                  Help Center
-                </Link>
+                <Link href="/about" className="text-[14px] text-mute hover:text-ink">About</Link>
               </li>
               <li>
-                <Link
-                  href="#"
-                  className="hover:text-foreground transition-colors"
-                >
-                  Contact
-                </Link>
+                <Link href="/careers" className="text-[14px] text-mute hover:text-ink">Careers</Link>
               </li>
               <li>
-                <Link
-                  href="#"
-                  className="hover:text-foreground transition-colors"
-                >
-                  Privacy
-                </Link>
+                <Link href="/press" className="text-[14px] text-mute hover:text-ink">Press</Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Promotions & Discounts */}
+          <div className="py-6 border-l border-hairline">
+            <h3 className="text-[16px] text-ink mb-4">Promotions & Discounts</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/sales" className="text-[14px] text-mute hover:text-ink">Current Sales</Link>
               </li>
               <li>
-                <Link
-                  href="#"
-                  className="hover:text-foreground transition-colors"
-                >
-                  Terms
-                </Link>
+                <Link href="/newsletter" className="text-[14px] text-mute hover:text-ink">Newsletter</Link>
+              </li>
+              <li>
+                <Link href="/promotions" className="text-[14px] text-mute hover:text-ink">Promotions</Link>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-muted-foreground text-sm">
-            © 2025 Ecomm. All rights reserved.
-          </p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
-            <Link
-              href="#"
-              className="text-muted-foreground hover:text-foreground text-sm transition-colors"
-            >
-              Privacy Policy
-            </Link>
-            <Link
-              href="#"
-              className="text-muted-foreground hover:text-foreground text-sm transition-colors"
-            >
-              Terms of Service
-            </Link>
+        <div className="border-t border-hairline mt-6 pt-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-[9px] text-mute">© 2025 Ecomm. All rights reserved.</p>
+            <div className="flex gap-4">
+              <Link href="/privacy" className="text-[9px] text-mute hover:text-ink">Privacy Policy</Link>
+              <Link href="/terms" className="text-[9px] text-mute hover:text-ink">Terms of Service</Link>
+            </div>
           </div>
         </div>
       </div>
